@@ -12,6 +12,10 @@ the tags on github. The Examples are:
 1. Publish/Subscribe
 1. HelloWorld
 
+When the project have been cloned you can checkout the examples
+locally using `git checkout <tag name>`, eg `git checkout HelloWorld`
+
+
 ###Setting up the project
 
 clone the github repository to your local machine. 
@@ -33,8 +37,19 @@ You can now access the RabbitMQ dashboard on: `localhost:15672`
 
 ####next step
 When the docker image is runnig (`docker ps` - Should list `msg-app`),
-you can run the examples 
+you can run the examples.
+ 
+ 
+###Using Gradle
+If you do not want to run the files in your IDE, I have predefined two gradle tasks
+which starts the sender and the receiver. These are of course only present in the latest commit.
+
+**With gradle wrapper**
+
+`./gradlew startSender` and `./gradlew startRecv`
 
 
+**With local gradle**
 
+`gradle startSender` and `gradle startRecv`
 
