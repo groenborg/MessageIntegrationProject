@@ -29,7 +29,7 @@ open class Sender {
             channel.basicPublish("", MsgArgs.QUEUE_NAME, null, message.toByteArray())
         }
 
-        println("[SENDER]:[SENT] - message - '$message'")
+        println("[SENDER]:[SENT][MESSAGE] -- '$message'")
 
         channel.close()
         connection.close()
