@@ -1,11 +1,12 @@
-import com.rabbitmq.client.*
-
-class Recv {
-
-
-    fun consume() {
+import com.rabbitmq.client.AMQP
+import com.rabbitmq.client.ConnectionFactory
+import com.rabbitmq.client.DefaultConsumer
+import com.rabbitmq.client.Envelope
 
 
+class MySubscriber {
+
+    fun startListening() {
         val factory = ConnectionFactory()
         factory.host = "localhost"
         factory.username = "user"
@@ -13,16 +14,13 @@ class Recv {
 
         val connection = factory.newConnection()
         val channel = connection.createChannel()
-        val severity: Array<String> = arrayOf("black", "info")
+        val severity: String = "only"
 
 
         channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "direct")
-        val randomQueue = channel.queueDeclare().queue
+        channel.queueDeclare("only_queue", true, false, false, null)
 
-
-        for (element in severity) {
-            channel.queueBind(randomQueue, MsgArgs.EXCHANGE_NAME, element)
-        }
+        channel.queueBind("only_queue", MsgArgs.EXCHANGE_NAME, severity)
 
 
 
@@ -36,13 +34,16 @@ class Recv {
                 println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
             }
         }
-        channel.basicConsume(randomQueue, true, consumer)
+        channel.basicConsume("only_queue", true, consumer)
 
 
     }
 
+
 }
 
 fun main(args: Array<String>) {
-    Recv().consume()
+
+    MySubscriber().startListening()
+
 }

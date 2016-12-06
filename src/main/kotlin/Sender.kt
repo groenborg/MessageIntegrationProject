@@ -41,7 +41,7 @@ open class Sender {
 fun main(args: Array<String>) {
 
     Sender().send("black")
-    Sender().send("noexistent")
+    Sender().send("only")
     Sender().send("info")
 
 }
