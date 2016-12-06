@@ -18,12 +18,17 @@ class Recv {
 
         val connection = factory.newConnection()
         val channel = connection.createChannel()
+        val severity: Array<String> = arrayOf("black", "info")
 
-        //channel.queueDeclare(MsgArgs.QUEUE_NAME, false, false, false, null)
 
-        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "fanout")
+        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "direct")
         val randomQueue = channel.queueDeclare().queue
-        channel.queueBind(randomQueue, MsgArgs.EXCHANGE_NAME, "")
+
+
+        for (element in severity) {
+            channel.queueBind(randomQueue, MsgArgs.EXCHANGE_NAME, element)
+        }
+
 
 
         println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
@@ -32,7 +37,8 @@ class Recv {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
 
                 val message = String(body!!, Charsets.UTF_8)
-                println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message'")
+                val routingKey = envelope?.routingKey
+                println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
             }
         }
         channel.basicConsume(randomQueue, true, consumer)

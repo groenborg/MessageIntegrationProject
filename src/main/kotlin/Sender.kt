@@ -3,14 +3,14 @@ import com.rabbitmq.client.ConnectionFactory
 
 object MsgArgs {
     val QUEUE_NAME: String = "my_queue"
-    val EXCHANGE_NAME: String = "my_exchange"
+    val EXCHANGE_NAME: String = "routing_exchange"
 }
 
 
 open class Sender {
 
 
-    fun send() {
+    fun send(severity: String) {
 
         val factory = ConnectionFactory()
         factory.host = "localhost"
@@ -22,12 +22,11 @@ open class Sender {
         val message: String = "hello, world"
 
 
-        //channel.queueDeclare(MsgArgs.QUEUE_NAME, false, false, false, null)
-        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "fanout")
+        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "direct")
 
 
         for (i in 1..10) {
-            channel.basicPublish(MsgArgs.EXCHANGE_NAME, "", null, message.toByteArray())
+            channel.basicPublish(MsgArgs.EXCHANGE_NAME, severity, null, message.toByteArray())
         }
 
         println("[SENDER]:[SENT][MESSAGE] -- '$message'")
@@ -41,6 +40,8 @@ open class Sender {
 
 fun main(args: Array<String>) {
 
-    Sender().send()
+    Sender().send("black")
+    Sender().send("noexistent")
+    Sender().send("info")
 
 }
