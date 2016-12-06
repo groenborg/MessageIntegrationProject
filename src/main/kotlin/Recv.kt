@@ -19,7 +19,13 @@ class Recv {
         val connection = factory.newConnection()
         val channel = connection.createChannel()
 
-        channel.queueDeclare(MsgArgs.QUEUE_NAME, false, false, false, null)
+        //channel.queueDeclare(MsgArgs.QUEUE_NAME, false, false, false, null)
+
+        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "fanout")
+        val randomQueue = channel.queueDeclare().queue
+        channel.queueBind(randomQueue, MsgArgs.EXCHANGE_NAME, "")
+
+
         println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
 
         val consumer = object : DefaultConsumer(channel) {
@@ -29,7 +35,7 @@ class Recv {
                 println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message'")
             }
         }
-        channel.basicConsume(MsgArgs.QUEUE_NAME, true, consumer)
+        channel.basicConsume(randomQueue, true, consumer)
 
 
     }

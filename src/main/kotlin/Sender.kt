@@ -22,11 +22,12 @@ open class Sender {
         val message: String = "hello, world"
 
 
-        channel.queueDeclare(MsgArgs.QUEUE_NAME, false, false, false, null)
+        //channel.queueDeclare(MsgArgs.QUEUE_NAME, false, false, false, null)
+        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "fanout")
 
 
         for (i in 1..10) {
-            channel.basicPublish("", MsgArgs.QUEUE_NAME, null, message.toByteArray())
+            channel.basicPublish(MsgArgs.EXCHANGE_NAME, "", null, message.toByteArray())
         }
 
         println("[SENDER]:[SENT][MESSAGE] -- '$message'")
