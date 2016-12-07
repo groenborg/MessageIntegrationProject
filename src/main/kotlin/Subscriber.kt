@@ -7,26 +7,16 @@ import com.rabbitmq.client.Envelope
 class MySubscriber {
 
     fun startListening() {
-        val factory = ConnectionFactory()
-        factory.host = "localhost"
-        factory.username = "user"
-        factory.password = "password"
-
-        val connection = factory.newConnection()
-        val channel = connection.createChannel()
+        val queue = MessageConnector.getTunnel()
         val severity: String = "only"
 
-
-        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "direct")
-        channel.queueDeclare("only_queue", true, false, false, null)
-
-        channel.queueBind("only_queue", MsgArgs.EXCHANGE_NAME, severity)
+        queue.bindQueueToExchange(QUEUES.NORMALIZER, EXHANGE.DEFAULT, arrayOf(severity))
 
 
 
         println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
 
-        val consumer = object : DefaultConsumer(channel) {
+        val consumer = object : DefaultConsumer(queue.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
 
                 val message = String(body!!, Charsets.UTF_8)
@@ -34,7 +24,7 @@ class MySubscriber {
                 println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
             }
         }
-        channel.basicConsume("only_queue", true, consumer)
+        queue.channel.basicConsume(QUEUES.NORMALIZER, true, consumer)
 
 
     }

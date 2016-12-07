@@ -1,34 +1,20 @@
 import com.rabbitmq.client.*
 
+
 class Recv {
 
 
     fun consume() {
 
+        val queue = MessageConnector.getTunnel()
 
-        val factory = ConnectionFactory()
-        factory.host = "localhost"
-        factory.username = "user"
-        factory.password = "password"
-
-        val connection = factory.newConnection()
-        val channel = connection.createChannel()
-        val severity: Array<String> = arrayOf("black", "info")
-
-
-        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "direct")
-        val randomQueue = channel.queueDeclare().queue
-
-
-        for (element in severity) {
-            channel.queueBind(randomQueue, MsgArgs.EXCHANGE_NAME, element)
-        }
-
+        queue.declareQueue(QUEUES.NORMALIZER, durable = true)
+        queue.bindQueueToExchange(QUEUES.NORMALIZER, EXHANGE.DEFAULT, arrayOf("black", "info"))
 
 
         println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
 
-        val consumer = object : DefaultConsumer(channel) {
+        val consumer = object : DefaultConsumer(queue.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
 
                 val message = String(body!!, Charsets.UTF_8)
@@ -36,8 +22,7 @@ class Recv {
                 println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
             }
         }
-        channel.basicConsume(randomQueue, true, consumer)
-
+        queue.channel.basicConsume(QUEUES.NORMALIZER, true, consumer)
 
     }
 

@@ -1,40 +1,21 @@
+import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.ConnectionFactory
-
-
-object MsgArgs {
-    val QUEUE_NAME: String = "my_queue"
-    val EXCHANGE_NAME: String = "routing_exchange"
-}
-
 
 open class Sender {
 
-
     fun send(severity: String) {
 
-        val factory = ConnectionFactory()
-        factory.host = "localhost"
-        factory.username = "user"
-        factory.password = "password"
-
-        val connection = factory.newConnection()
-        val channel = connection.createChannel()
+        val queue = MessageConnector.getTunnel()
         val message: String = "hello, world"
 
-
-        channel.exchangeDeclare(MsgArgs.EXCHANGE_NAME, "direct")
-
-
         for (i in 1..10) {
-            channel.basicPublish(MsgArgs.EXCHANGE_NAME, severity, null, message.toByteArray())
+            queue.basicPublish(EXHANGE.DEFAULT, arrayOf(severity), message = message)
         }
-
         println("[SENDER]:[SENT][MESSAGE] -- '$message'")
 
-        channel.close()
-        connection.close()
+        queue.channel.close()
+        queue.connection.close()
     }
-
 
 }
 
