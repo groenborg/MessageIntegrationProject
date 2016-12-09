@@ -5,7 +5,7 @@ open class Sender {
 
     fun send(severity: String) {
 
-        val queue = MessageConnector.getTunnel()
+        val queue = MsgFactory.buildMessageConnector()
         val message: String = "hello, world"
 
         for (i in 1..10) {

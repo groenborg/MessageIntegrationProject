@@ -7,7 +7,6 @@ object EXHANGE {
 }
 
 object QUEUES {
-
     val ENRICHER_RULE = "er_queue"
     val ENRICHER_CREDIT = "ec_queue"
     val AGGREGATOR = "agg_queue"
@@ -15,26 +14,29 @@ object QUEUES {
 }
 
 
-object MessageConnector {
+class MsgFactory {
 
-    private val host: String = "localhost"
-    private val username: String = "user"
-    private val password: String = "password"
-    private val factory = ConnectionFactory()
+    companion object {
 
-    fun getTunnel(): MessageTunnel {
-        factory.host = host
-        factory.username = username
-        factory.password = password
+        val host: String = "localhost"
+        val username: String = "user"
+        val password: String = "password"
+        val factory = ConnectionFactory()
 
-        val connection = factory.newConnection()
-        val channel = connection.createChannel()
-        return MessageTunnel(connection, channel)
+        fun buildMessageConnector(): Connector {
+            factory.host = host
+            factory.username = username
+            factory.password = password
+            val connection = factory.newConnection()
+            val channel = connection.createChannel()
+            return Connector(connection, channel)
+        }
+
     }
-
 }
 
-class MessageTunnel(var connection: Connection, var channel: Channel) {
+
+class Connector(var connection: Connection, var channel: Channel) {
 
     fun bindQueueToExchange(queue: String, exchange: String, severity: Array<String>) {
         for (element in severity) {
