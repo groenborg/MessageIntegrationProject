@@ -40,7 +40,7 @@ When the docker image is runnig (`docker ps` - Should list `msg-app`),
 you can run the examples.
  
  
-###Using Gradle
+###Using Gradle = Deprecated
 If you do not want to run the files in your IDE, I have predefined two gradle tasks
 which starts the sender and the receiver. These are of course only present in the latest commit.
 
@@ -53,3 +53,8 @@ which starts the sender and the receiver. These are of course only present in th
 
 `gradle startSender` and `gradle startRecv`
 
+###I have made severe changes
+
+I have created a factory that contains all necessary things to make the connetions
+
+And a class for the 3 standard actions: Declare A queue, Bind the Queue and Start consuming
