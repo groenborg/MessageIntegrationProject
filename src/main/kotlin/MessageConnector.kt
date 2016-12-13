@@ -11,6 +11,11 @@ object QUEUES {
     val ENRICHER_CREDIT = "ec_queue"
     val AGGREGATOR = "agg_queue"
     val NORMALIZER = "nmz_queue"
+    val RECIPIENT_LIST = "rl_queue"
+    val TRANSLATOR_BANK1 = "b1_queue"
+    val TRANSLATOR_BANK2 = "b2_queue"
+    val TRANSLATOR_BANK3 = "b3_queue"
+    val TRANSLATOR_BANK4 = "b4_queue"
 }
 
 
