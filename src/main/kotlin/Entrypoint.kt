@@ -1,4 +1,4 @@
-import components.CreditEnricher
+import components.CreditScore.CreditEnricher
 import components.Normalizer
 import components.RuleEnricher
 
@@ -6,8 +6,8 @@ import components.RuleEnricher
 fun main(args: Array<String>) {
 
 
-    RuleEnricher().bindQueue("rule").startConsume()
+    //RuleEnricher().bindQueue("rule").startConsume()
     CreditEnricher().bindQueue("credit").startConsume()
-    Normalizer().bindQueue("").startConsume()
+    //Normalizer().bindQueue("").startConsume()
 
 }

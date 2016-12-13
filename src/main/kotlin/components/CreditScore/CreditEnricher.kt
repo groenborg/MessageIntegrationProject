@@ -1,18 +1,19 @@
-package components
+package components.CreditScore
 
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
+import components.IMessageComponent
 
 /**
- * Created by simon on 09/12/2016.
+ * Created by Skroget on 13/12/2016.
  */
 
 
-class RuleEnricher : IMessageComponent {
+class CreditEnricher : IMessageComponent {
 
     private val connector = MsgFactory.buildMessageConnector()
-    private val queue = QUEUES.ENRICHER_RULE
+    private val queue = QUEUES.ENRICHER_CREDIT
     private val exchange = EXHANGE.DEFAULT
 
 
@@ -21,7 +22,6 @@ class RuleEnricher : IMessageComponent {
         connector.bindQueueToExchange(queue, exchange, severity = arrayOf(severity))
         return this
     }
-
 
     override fun startConsume() {
         println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
@@ -36,13 +36,31 @@ class RuleEnricher : IMessageComponent {
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+
     }
 
     override fun componentAction(msg: String) {
-        println("I WAS AN RULE ACTION")
+        println("I WAS AN CREDIT ACTION")
+
+        val service = CreditScoreService()
+        val proxy = service.creditScoreServicePort
+
+        println(proxy.creditScore("240790-1285"))
+
+        /*
+        var tmp = XMLParser(RequestObject::class.java).fromXML(msg)
+
+        println("---------------------")
+        println("SSN : " + tmp.ssn)
+        println("Amount : " + tmp.amount)
+        println("Duration : " + tmp.duration)
+        */
+
     }
-
-
 }
 
-
+class RequestObject {
+    @JvmField var ssn: String? = null
+    @JvmField var amount: String? = null
+    @JvmField var duration: String? = null
+}

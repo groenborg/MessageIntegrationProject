@@ -5,7 +5,7 @@ import com.rabbitmq.client.Envelope
 
 
 class MySubscriber {
-
+/*
     fun startListening() {
         val queue = MessageConnector.getTunnel()
         val severity: String = "only"
@@ -35,5 +35,5 @@ class MySubscriber {
 fun main(args: Array<String>) {
 
     MySubscriber().startListening()
-
+*/
 }

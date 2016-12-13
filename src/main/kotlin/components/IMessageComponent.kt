@@ -15,8 +15,8 @@ interface IMessageComponent {
 
 
     /**
-     * Method for implementing the compoenents logic
+     * Method for implementing the components logic
      */
-    fun componentAction()
+    fun componentAction(msg: String)
 
 }

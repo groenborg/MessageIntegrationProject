@@ -13,7 +13,7 @@ class Normalizer : IMessageComponent {
         throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun componentAction() {
+    override fun componentAction(msg: String) {
         throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
