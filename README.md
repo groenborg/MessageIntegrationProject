@@ -67,7 +67,7 @@ So we are using the following table for our solution:
 
 | Credit Score | Credit Range  | Bank number |
 |:------------:|:-------------:|:-----------:|
-| Excellent    | 720 and Up    | #1, #3      |
+| Excellent    | 720 and Up    | #1, #2, #3  |
 | Good         | 680 to 719    | #2, #3      |
 | Average      | 620 to 679    | #2, #3      |
 | Poor         | 580 to 619    | #3, #4      |
@@ -76,7 +76,7 @@ So we are using the following table for our solution:
 
 In a summary:
 * Bank #1 takes only Excellent customers
-* Bank #2 takes all positive scores, but Excellent
+* Bank #2 takes all positive scores above poor
 * Bank #3 basically takes everyone in
 * Bank #4 takes only bad customers
 
