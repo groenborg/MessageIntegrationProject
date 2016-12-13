@@ -86,7 +86,8 @@ We are just using these facts as a proof of concept, even though it may look dif
 
 When receiving rules from our Rule Base the format COULD be the following in XML:
 
-`<rules>
+```
+ <rules>
 
    </rule>
      <creditscore>EXCELLENT</creditscore>
@@ -102,4 +103,4 @@ When receiving rules from our Rule Base the format COULD be the following in XML
    ...
    
  </rules>
-`
+```
