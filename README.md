@@ -58,3 +58,26 @@ which starts the sender and the receiver. These are of course only present in th
 I have created a factory that contains all necessary things to make the connetions
 
 And a class for the 3 standard actions: Declare A queue, Bind the Queue and Start consuming
+
+###Regarding Credit-Score and Banks
+
+We have taken inspiration from following website about credit-scores --> [source](http://www.freescore.com/good-bad-credit-score-range.aspx)
+
+So we are using the following table for our solution:
+
+| Credit Score | Credit Range  | Bank number |
+|:------------:|:-------------:|:-----------:|
+| Excellent    | 720 and Up    | #1, #3      |
+| Good         | 680 to 719    | #2, #3      |
+| Average      | 620 to 679    | #2, #3      |
+| Poor         | 580 to 619    | #3, #4      |
+| Bad          | 500 to 579    | #3, #4      |
+| Miserable    | Less than 500 | #3, #4      |
+
+In a summary:
+* Bank #1 takes only Excellent customers
+* Bank #2 takes all positive scores, but Excellent
+* Bank #3 basically takes everyone in
+* Bank #4 takes only bad customers
+
+We are just using these facts as a proof of concept, even though it may look differently in the real world.  
