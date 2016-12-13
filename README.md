@@ -81,3 +81,25 @@ In a summary:
 * Bank #4 takes only bad customers
 
 We are just using these facts as a proof of concept, even though it may look differently in the real world.  
+
+####Rule Base
+
+When receiving rules from our Rule Base the format COULD be the following in XML:
+
+`<rules>
+
+   </rule>
+     <creditscore>EXCELLENT</creditscore>
+     <maxscore>800</maxscore>
+     <minscore>720</minscore>
+     <banks>
+       <bank>1</bank>
+       <bank>2</bank>
+       <bank>3</bank>
+     </banks>
+   </rule>
+   
+   ...
+   
+ </rules>
+`
