@@ -3,6 +3,9 @@ package components
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
+import messaging.EXCHANGE
+import messaging.MsgFactory
+import messaging.QUEUES
 
 /**
  * Created by simon on 09/12/2016.
@@ -13,7 +16,7 @@ class RuleEnricher : IMessageComponent {
 
     private val connector = MsgFactory.buildMessageConnector()
     private val queue = QUEUES.ENRICHER_RULE
-    private val exchange = EXHANGE.DEFAULT
+    private val exchange = EXCHANGE.DEFAULT
 
 
     override fun bindQueue(severity: String): IMessageComponent {

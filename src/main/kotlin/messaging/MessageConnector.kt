@@ -1,8 +1,10 @@
+package messaging
+
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
 
-object EXHANGE {
+object EXCHANGE {
     val DEFAULT = "routing_exchange"
 }
 
@@ -12,6 +14,7 @@ object QUEUES {
     val AGGREGATOR = "agg_queue"
     val NORMALIZER = "nmz_queue"
 }
+
 
 
 class MsgFactory {

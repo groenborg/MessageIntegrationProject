@@ -1,6 +1,6 @@
 package components
 
-import MessageModel
+import messaging.MessageModel
 
 
 class Aggregator : IMessageComponent {
