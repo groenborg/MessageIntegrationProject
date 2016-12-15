@@ -3,7 +3,7 @@
 <endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
 
     <endpoint
-            name='HelloWorld'
-            implementation='example.HelloWorld'
-            url-pattern='/services/HelloWorld'/>
+            name='requestLoan'
+            implementation='loanservice.LoanRequest'
+            url-pattern='/services/requestLoan'/>
 </endpoints>
