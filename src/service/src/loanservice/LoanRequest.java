@@ -19,7 +19,7 @@ public class LoanRequest implements ILoanRequest {
     @Override
     public String requestLoan(String ssn, int amount, String currency, int duration) {
 
-        RequestObject obj = new RequestObject(ssn, "" + amount, "" + duration);
+        RequestObject obj = new RequestObject(ssn, "" + amount, "" + duration,currency);
 
         XMLParser<RequestObject> parser = new XMLParser<RequestObject>(RequestObject.class);
         String xmlObject = parser.toXML(obj);
