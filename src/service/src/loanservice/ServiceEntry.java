@@ -1,6 +1,6 @@
 package loanservice;
 
-import example.HelloWorld;
+
 import javax.xml.ws.Endpoint;
 
 

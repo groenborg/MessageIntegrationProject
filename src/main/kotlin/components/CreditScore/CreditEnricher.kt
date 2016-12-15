@@ -60,6 +60,13 @@ class CreditEnricher : IMessageComponent {
 }
 
 class RequestObject {
+
+    constructor(ssn: String?, amount: String?, duration: String?) {
+        this.ssn = ssn
+        this.amount = amount
+        this.duration = duration
+    }
+
     @JvmField var ssn: String? = null
     @JvmField var amount: String? = null
     @JvmField var duration: String? = null

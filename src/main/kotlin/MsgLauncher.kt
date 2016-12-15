@@ -11,3 +11,5 @@ fun main(args: Array<String>) {
     //Normalizer().bindQueue("").startConsume()
 
 }
+
+
