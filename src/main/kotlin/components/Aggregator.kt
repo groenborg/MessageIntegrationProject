@@ -1,6 +1,6 @@
 package components
 
-import MessageModel
+import messaging.MessageModel
 
 
 class Aggregator : IMessageComponent {
@@ -18,6 +18,5 @@ class Aggregator : IMessageComponent {
     override fun componentAction(msg : String) {
         throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
 
 }

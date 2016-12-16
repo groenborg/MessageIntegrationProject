@@ -1,4 +1,4 @@
-package components.CreditScore
+package components.creditscore
 
 /**
  * Created by Skroget on 13/12/2016.

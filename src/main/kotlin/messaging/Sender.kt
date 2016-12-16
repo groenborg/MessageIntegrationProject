@@ -1,5 +1,4 @@
-import com.rabbitmq.client.AMQP
-import com.rabbitmq.client.ConnectionFactory
+package messaging
 
 open class Sender {
 
@@ -9,7 +8,7 @@ open class Sender {
         val message: String = "hello, world"
 
         for (i in 1..10) {
-            queue.basicPublish(EXHANGE.DEFAULT, arrayOf(severity), message = message)
+            queue.basicPublish(EXCHANGE.DEFAULT, arrayOf(severity), message = message)
         }
         println("[SENDER]:[SENT][MESSAGE] -- '$message'")
 

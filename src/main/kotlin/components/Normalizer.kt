@@ -1,5 +1,7 @@
 package components
 
+import messaging.MsgFactory
+
 class Normalizer : IMessageComponent {
 
     var connector = MsgFactory.buildMessageConnector()

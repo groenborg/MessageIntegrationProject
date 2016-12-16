@@ -1,20 +1,19 @@
-package components.CreditScore
+package components.creditscore
 
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
 import components.IMessageComponent
-
-/**
- * Created by Skroget on 13/12/2016.
- */
+import messaging.EXCHANGE
+import messaging.MsgFactory
+import messaging.QUEUES
 
 
 class CreditEnricher : IMessageComponent {
 
     private val connector = MsgFactory.buildMessageConnector()
     private val queue = QUEUES.ENRICHER_CREDIT
-    private val exchange = EXHANGE.DEFAULT
+    private val exchange = EXCHANGE.DEFAULT
 
 
     override fun bindQueue(severity: String): IMessageComponent {
@@ -60,10 +59,4 @@ class CreditEnricher : IMessageComponent {
         */
 
     }
-}
-
-class RequestObject {
-    @JvmField var ssn: String? = null
-    @JvmField var amount: String? = null
-    @JvmField var duration: String? = null
 }
