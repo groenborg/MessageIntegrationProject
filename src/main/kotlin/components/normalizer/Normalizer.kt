@@ -14,12 +14,14 @@ class Normalizer : IMessageComponent {
 
     var connector = MsgFactory.buildMessageConnector()
     var xmlParser = XMLParser(RequestObject::class.java)
+    var severity: String = ""
 
-    val queue = QUEUES.ENRICHER_RULE
+    val queue = QUEUES.NORMALIZER
     val exchange = EXCHANGE.DEFAULT
 
 
     override fun bindQueue(severity: String): IMessageComponent {
+        this.severity = severity
         connector.declareQueue(queue, true)
         connector.bindQueueToExchange(queue, exchange, arrayOf(severity))
         return this
@@ -29,15 +31,21 @@ class Normalizer : IMessageComponent {
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
 
-                // Send Somewhere
                 componentAction(String(body!!, Charsets.UTF_8))
+
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+        println("[NORMALIZER]: listening on routing key => " + severity)
     }
 
     override fun componentAction(msg: String) {
+
+        println(msg)
+
         val requestObject = xmlParser.fromXML(msg)
+
+
         var messageToSend: String = ""
 
         requestObject.currency = "NORMALIZER"

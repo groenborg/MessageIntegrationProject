@@ -55,9 +55,9 @@ class Connector(var connection: Connection, var channel: Channel) {
         channel.queueDeclare(name, durable, false, false, null)
     }
 
-    fun basicPublish(exhange: String, severity: Array<String>, message: String) {
+    fun basicPublish(exchange: String, severity: Array<String>, message: String) {
         for (element in severity) {
-            channel.basicPublish(exhange, element, null, message.toByteArray())
+            channel.basicPublish(exchange, element, null, message.toByteArray())
         }
 
     }

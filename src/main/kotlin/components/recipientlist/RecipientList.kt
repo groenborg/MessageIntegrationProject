@@ -41,7 +41,7 @@ class RecipientList : IMessageComponent {
     override fun componentAction(msg: String) {
         val data = XMLParser(RequestObject::class.java).fromXML(msg);
 
-        when (data.creditScore.toInt()) {
+        when (data.creditScore?.toInt()) {
             in 720..800 -> connector.basicPublish(exchange, severity = arrayOf("EXCELLENT"), message = msg)
             in 680..719 -> connector.basicPublish(exchange, severity = arrayOf("GOOD"), message = msg)
             in 620..679 -> connector.basicPublish(exchange, severity = arrayOf("AVERAGE"), message = msg)

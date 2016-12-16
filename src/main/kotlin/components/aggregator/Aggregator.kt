@@ -16,6 +16,7 @@ class Aggregator : IMessageComponent {
 
     var aggregate: Map<String, RequestObject> = HashMap()
     var xmlParser = XMLParser(RequestObject::class.java)
+    var severity: String = ""
 
     val connector = MsgFactory.buildMessageConnector()
     val exchange = EXCHANGE.DEFAULT
@@ -23,6 +24,7 @@ class Aggregator : IMessageComponent {
 
 
     override fun bindQueue(severity: String): IMessageComponent {
+        this.severity = severity
         connector.declareQueue(queue, true)
         connector.bindQueueToExchange(queue, exchange, severity = arrayOf(severity))
         return this
@@ -37,6 +39,7 @@ class Aggregator : IMessageComponent {
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+        println("[AGGREGATOR]: listening on routing key => " + severity)
     }
 
     override fun componentAction(msg: String) {
