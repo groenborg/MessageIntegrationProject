@@ -1,7 +1,7 @@
 package messaging
 
 import components.creditscore.CreditEnricher
-import components.Normalizer
+import components.normalizer.Normalizer
 import components.RuleEnricher
 
 

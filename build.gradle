@@ -33,5 +33,5 @@ task startRecv(type: JavaExec){
 
 task startSender(type: JavaExec){
     classpath = sourceSets.main.runtimeClasspath
-    main = 'SenderKt'
+    main = 'MsgLauncherKt'
 }

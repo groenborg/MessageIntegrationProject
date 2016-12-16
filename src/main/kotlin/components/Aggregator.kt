@@ -1,11 +1,11 @@
 package components
 
-import messaging.MessageModel
+import messaging.RequestObject
 
 
 class Aggregator : IMessageComponent {
 
-    var aggreagtes: Array<MessageModel> = arrayOf()
+    var aggreagtes: Array<RequestObject> = arrayOf()
 
     override fun bindQueue(severity: String): IMessageComponent {
         throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
