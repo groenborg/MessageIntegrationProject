@@ -28,5 +28,5 @@ open class Sender {
 }
 
 fun main(args: Array<String>) {
-    Sender().send("credit")
+    Sender().send("agg")
 }

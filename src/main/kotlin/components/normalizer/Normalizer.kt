@@ -13,9 +13,11 @@ import utils.XMLParser
 class Normalizer : IMessageComponent {
 
     var connector = MsgFactory.buildMessageConnector()
+    var xmlParser = XMLParser(RequestObject::class.java)
+
     val queue = QUEUES.ENRICHER_RULE
     val exchange = EXCHANGE.DEFAULT
-    var xmlParser = XMLParser(RequestObject::class.java)
+
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
@@ -28,18 +30,23 @@ class Normalizer : IMessageComponent {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
 
                 // Send Somewhere
-                val messageObject = xmlParser.fromXML(String(body!!, Charsets.UTF_8))
-
-
-
-
+                componentAction(String(body!!, Charsets.UTF_8))
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
     }
 
     override fun componentAction(msg: String) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val requestObject = xmlParser.fromXML(msg)
+        var messageToSend: String = ""
+
+        requestObject.currency = "NORMALIZER"
+        messageToSend = xmlParser.toXML(requestObject)
+
+
+        connector.basicPublish(exchange, arrayOf("agg"), message = messageToSend)
+
+        println("[NORMALIZER: RECEIVED AND SENT]")
     }
 
 }
