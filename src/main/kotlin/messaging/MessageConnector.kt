@@ -14,10 +14,10 @@ object QUEUES {
     val AGGREGATOR = "agg_queue"
     val NORMALIZER = "nmz_queue"
     val RECIPIENT_LIST = "rl_queue"
-    val TRANSLATOR_BANK1 = "b1_queue"
-    val TRANSLATOR_BANK2 = "b2_queue"
-    val TRANSLATOR_BANK3 = "b3_queue"
-    val TRANSLATOR_BANK4 = "b4_queue"
+    val BANK_TRANSLATOR1 = "bt1_queue"
+    val BANK_TRANSLATOR2 = "bt2_queue"
+    val BANK_TRANSLATOR3 = "bt3_queue"
+    val BANK_TRANSLATOR4 = "bt4_queue"
 }
 
 

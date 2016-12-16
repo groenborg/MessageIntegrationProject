@@ -10,6 +10,9 @@ import messaging.QUEUES
 import messaging.RequestObject
 import utils.XMLParser
 
+/**
+ * Created by christophermortensen on 13/12/2016.
+ */
 
 class RecipientList : IMessageComponent {
 
@@ -38,6 +41,7 @@ class RecipientList : IMessageComponent {
         connector.channel.basicConsume(queue, true, consumer)
     }
 
+    // Since this RecipientList functions as a Router, it will not enrich the data
     override fun componentAction(msg: String) {
         val data = XMLParser(RequestObject::class.java).fromXML(msg);
 
