@@ -23,11 +23,11 @@ class RequestObject {
 
 }
 
-class  RuleRequest{
+class RuleRequest {
 
 }
 
-class RuleObject{
+class RuleObject {
 
 
 }

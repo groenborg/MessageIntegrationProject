@@ -56,6 +56,8 @@ class Aggregator : IMessageComponent {
 
         message = xmlParser.toXML(messageObject)
         connector.basicPublish(exchange, severity = arrayOf("endpoint"), message = message)
+
+        println("[AGGREGATOR]: RECEIVED AND SENT")
     }
 
 }

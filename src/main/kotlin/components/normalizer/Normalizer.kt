@@ -40,21 +40,15 @@ class Normalizer : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
-
-        println(msg)
-
         val requestObject = xmlParser.fromXML(msg)
-
-
         var messageToSend: String = ""
 
         requestObject.currency = "NORMALIZER"
         messageToSend = xmlParser.toXML(requestObject)
 
-
         connector.basicPublish(exchange, arrayOf("agg"), message = messageToSend)
 
-        println("[NORMALIZER: RECEIVED AND SENT]")
+        println("[NORMALIZER]: RECEIVED AND SENT")
     }
 
 }
