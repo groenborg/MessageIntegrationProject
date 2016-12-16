@@ -46,6 +46,9 @@ class CreditEnricher : IMessageComponent {
 
         println(proxy.creditScore("240790-1285"))
 
+        connector.basicPublish(exchange, arrayOf("credit"), msg)
+
+
         /*
         var tmp = XMLParser(RequestObject::class.java).fromXML(msg)
 
