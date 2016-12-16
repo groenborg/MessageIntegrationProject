@@ -85,10 +85,10 @@ We are just using these facts as a proof of concept, even though it may look dif
 
 ### The routing logic
 The recipient-list we are including in our project is not a pre-defined component, since you can create it on multiple ways.
-It is more accurate to call the Recipient List a Message Integration Pattern.
+It is more accurate to call the Recipient List a Message Integration Pattern, although the Recipient List is still considered as the single sender.
 This type of router, can send a single Message to multiple recipients.
 
-There are two major ways to implement the Recipient List:
+There are two major ways to implement the routing with a Recipient List:
 
 **1. Let the routing-specific logic happen in a separate sender:**
 - The sender knows what the recipients want.
