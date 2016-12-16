@@ -6,13 +6,13 @@ import com.rabbitmq.client.Envelope
 import components.IMessageComponent
 
 /**
- * Created by simon on 09/12/2016.
+ * Created by christophermortensen on 13/12/2016.
  */
 
 // JSON BANK
-class TranslatorBank1 : IMessageComponent {
+class BankTranslator1 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
-    private val queue = QUEUES.TRANSLATOR_BANK1
+    private val queue = QUEUES.BANK_TRANSLATOR1
     private val exchange = EXHANGE.DEFAULT;
 
     override fun bindQueue(severity: String): IMessageComponent {
@@ -43,9 +43,9 @@ class TranslatorBank1 : IMessageComponent {
 }
 
 // XML BANK
-class TranslatorBank2 : IMessageComponent {
+class BankTranslator2 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
-    private val queue = QUEUES.TRANSLATOR_BANK2
+    private val queue = QUEUES.BANK_TRANSLATOR2
     private val exchange = EXHANGE.DEFAULT;
 
     override fun bindQueue(severity: String): IMessageComponent {
@@ -76,9 +76,9 @@ class TranslatorBank2 : IMessageComponent {
 }
 
 // JSON BANK
-class TranslatorBank3 : IMessageComponent {
+class BankTranslator3 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
-    private val queue = QUEUES.TRANSLATOR_BANK3
+    private val queue = QUEUES.BANK_TRANSLATOR3
     private val exchange = EXHANGE.DEFAULT;
 
     override fun bindQueue(severity: String): IMessageComponent {
@@ -109,9 +109,9 @@ class TranslatorBank3 : IMessageComponent {
 }
 
 // JSON BANK
-class TranslatorBank4 : IMessageComponent {
+class BankTranslator4 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
-    private val queue = QUEUES.TRANSLATOR_BANK4
+    private val queue = QUEUES.BANK_TRANSLATOR4
     private val exchange = EXHANGE.DEFAULT;
 
     override fun bindQueue(severity: String): IMessageComponent {
