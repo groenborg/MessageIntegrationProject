@@ -1,6 +1,6 @@
 package messaging
 
-import components.Aggregator
+import components.aggregator.Aggregator
 import components.creditscore.CreditEnricher
 import components.normalizer.Normalizer
 import components.RuleEnricher

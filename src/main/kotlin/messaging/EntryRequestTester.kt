@@ -1,5 +1,6 @@
 package messaging
 
+import com.rabbitmq.client.QueueingConsumer
 import utils.XMLParser
 
 
@@ -20,6 +21,13 @@ open class Sender {
             queue.basicPublish(EXCHANGE.DEFAULT, arrayOf(severity), message = message)
         }
         println("[SENDER]:[SENT][MESSAGE] -- '$message'")
+
+
+
+        val queueingConsumer = QueueingConsumer(queue.channel)
+        val delivery = queueingConsumer.nextDelivery()
+        val msg = String(delivery.body!!, Charsets.UTF_8)
+        println(msg)
 
         queue.channel.close()
         queue.connection.close()
