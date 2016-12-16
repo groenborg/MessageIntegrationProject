@@ -1,12 +1,7 @@
 package loanservice;
 
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.QueueingConsumer;
-import components.CreditScore.RequestObject;
-import messaging.Connector;
-import messaging.MsgFactory;
-import utils.XMLParser;
+import components.creditscore.RequestObject;
 
 import javax.jws.WebService;
 

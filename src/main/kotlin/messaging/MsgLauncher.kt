@@ -1,6 +1,6 @@
 package messaging
 
-import components.CreditScore.CreditEnricher
+import components.creditscore.CreditEnricher
 import components.Normalizer
 import components.RuleEnricher
 

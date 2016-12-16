@@ -1,20 +1,21 @@
-package components.recipientList
+package components.recipientlist
 
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
 import components.IMessageComponent
-import components.XMLParser
+import messaging.EXCHANGE
+import messaging.MsgFactory
+import messaging.QUEUES
+import messaging.RequestObject
+import utils.XMLParser
 
-/**
- * Created by cm on 13/12/2016.
- */
 
-class RecipientList : IMessageComponent{
+class RecipientList : IMessageComponent {
 
     private val connector = MsgFactory.buildMessageConnector();
     private val queue = QUEUES.RECIPIENT_LIST
-    private val exchange = EXHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
@@ -40,7 +41,7 @@ class RecipientList : IMessageComponent{
     override fun componentAction(msg: String) {
         val data = XMLParser(RequestObject::class.java).fromXML(msg);
 
-        when (data.creditScore.toInt()){
+        when (data.creditScore.toInt()) {
             in 720..800 -> connector.basicPublish(exchange, severity = arrayOf("EXCELLENT"), message = msg)
             in 680..719 -> connector.basicPublish(exchange, severity = arrayOf("GOOD"), message = msg)
             in 620..679 -> connector.basicPublish(exchange, severity = arrayOf("AVERAGE"), message = msg)
@@ -50,11 +51,4 @@ class RecipientList : IMessageComponent{
         }
     }
 
-}
-
-class RequestObject {
-    @JvmField var ssn: String? = null
-    @JvmField var amount: String? = null
-    @JvmField var duration: String? = null
-    @JvmField var creditScore: String = "";
 }

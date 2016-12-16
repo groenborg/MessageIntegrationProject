@@ -1,10 +1,8 @@
 package messaging
 
 /***
- *
+ * Request Object for Messages
  */
-
-
-
-class MessageModel(var ssn: String, var amount: Double, var currency: String, var duration: Int, var creditScore: Int = 0)
-
+class RequestObject(@JvmField var ssn: String?, @JvmField var amount: String?, @JvmField var duration: String?, @JvmField var currency: String?) {
+    @JvmField var creditScore: String = ""
+}

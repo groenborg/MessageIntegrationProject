@@ -1,11 +1,5 @@
 package messaging
 
-import com.rabbitmq.client.AMQP
-import com.rabbitmq.client.ConnectionFactory
-
-import messaging.EXCHANGE
-import messaging.MsgFactory
-
 open class Sender {
 
     fun send(severity: String) {

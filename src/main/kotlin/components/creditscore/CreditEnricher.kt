@@ -1,4 +1,4 @@
-package components.CreditScore
+package components.creditscore
 
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
@@ -56,19 +56,4 @@ class CreditEnricher : IMessageComponent {
         */
 
     }
-}
-
-class RequestObject {
-
-    constructor(ssn: String?, amount: String?, duration: String?, currency: String?) {
-        this.ssn = ssn
-        this.amount = amount
-        this.duration = duration
-        this.currency = currency
-    }
-
-    @JvmField var ssn: String? = null
-    @JvmField var amount: String? = null
-    @JvmField var duration: String? = null
-    @JvmField var currency: String? = null
 }

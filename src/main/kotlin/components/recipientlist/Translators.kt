@@ -1,19 +1,19 @@
-package components.recipientList
+package components.recipientlist
 
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
 import components.IMessageComponent
+import messaging.EXCHANGE
+import messaging.MsgFactory
+import messaging.QUEUES
 
-/**
- * Created by simon on 09/12/2016.
- */
 
 // JSON BANK
 class TranslatorBank1 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
     private val queue = QUEUES.TRANSLATOR_BANK1
-    private val exchange = EXHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT;
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
@@ -36,7 +36,7 @@ class TranslatorBank1 : IMessageComponent {
         connector.channel.basicConsume(queue, true, consumer)
     }
 
-    override fun componentAction(msg : String) {
+    override fun componentAction(msg: String) {
         // TODO: Do the actual conversion of the data and publish to banks
     }
 
@@ -46,7 +46,7 @@ class TranslatorBank1 : IMessageComponent {
 class TranslatorBank2 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
     private val queue = QUEUES.TRANSLATOR_BANK2
-    private val exchange = EXHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
@@ -69,7 +69,7 @@ class TranslatorBank2 : IMessageComponent {
         connector.channel.basicConsume(queue, true, consumer)
     }
 
-    override fun componentAction(msg : String) {
+    override fun componentAction(msg: String) {
         // TODO: Do the actual conversion of the data and publish to banks
     }
 
@@ -79,7 +79,7 @@ class TranslatorBank2 : IMessageComponent {
 class TranslatorBank3 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
     private val queue = QUEUES.TRANSLATOR_BANK3
-    private val exchange = EXHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
@@ -102,7 +102,7 @@ class TranslatorBank3 : IMessageComponent {
         connector.channel.basicConsume(queue, true, consumer)
     }
 
-    override fun componentAction(msg : String) {
+    override fun componentAction(msg: String) {
         // TODO: Do the actual conversion of the data and publish to banks
     }
 
@@ -112,7 +112,7 @@ class TranslatorBank3 : IMessageComponent {
 class TranslatorBank4 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
     private val queue = QUEUES.TRANSLATOR_BANK4
-    private val exchange = EXHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
@@ -135,7 +135,7 @@ class TranslatorBank4 : IMessageComponent {
         connector.channel.basicConsume(queue, true, consumer)
     }
 
-    override fun componentAction(msg : String) {
+    override fun componentAction(msg: String) {
         // TODO: Do the actual conversion of the data and publish to banks
     }
 

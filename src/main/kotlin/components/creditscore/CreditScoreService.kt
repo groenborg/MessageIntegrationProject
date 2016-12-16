@@ -1,4 +1,4 @@
-package components.CreditScore
+package components.creditscore
 
 import javax.xml.ws.WebServiceClient
 import javax.xml.ws.WebServiceException
