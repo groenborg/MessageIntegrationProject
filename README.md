@@ -81,3 +81,26 @@ In a summary:
 * Bank #4 takes only bad customers
 
 We are just using these facts as a proof of concept, even though it may look differently in the real world.  
+
+
+#### The routing logic
+The recipient-list we are including in our project is not a pre-defined component, since you can create it on multiple ways.
+It is more accurate to call the Recipient List a Message Integration Pattern.
+
+This type of router, can send a single Message to multiple recipients.
+
+There are two major ways to implement the Recipient List:
+
+1. Let the routing-specific logic happen in a separate sender
+..* The sender knows what the recipients want.
+..* The Recipients obtain the Message without discussion.
+..* The sender, should always perform checkings for every Message.
+
+2. Let the routing-specific logic happen in each recipient.
+..* The sender sends a Message to every recipient
+..* It would likely use a Public-Subscribe-Channel having Message Filters in every recipient
+..* The sender enriches the Message with a list of qualified receivers.
+..* If the recipient is not at the list, it will simply discard the Message.
+..* A recipient should always check every Message generated
+
+In our solution we have chosen approach #1
