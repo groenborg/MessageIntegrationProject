@@ -2,7 +2,7 @@ package messaging
 
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.ConnectionFactory
-import components.MsgFactory
+
 import messaging.EXCHANGE
 import messaging.MsgFactory
 
