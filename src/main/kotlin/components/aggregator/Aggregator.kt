@@ -41,6 +41,9 @@ class Aggregator : IMessageComponent {
         println("[AGGREGATOR]: now listening")
     }
 
+    /**
+     * Distributes messages based on types
+     */
     override fun componentAction(msg: String) {
         println(msg)
 
