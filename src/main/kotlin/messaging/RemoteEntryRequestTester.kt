@@ -10,7 +10,19 @@ class RemoteEntryRequestTester {
     val jsonMessage = "{\"ssn\":1605789787,\"creditScore\":598,\"loanAmount\":10.0,\"loanDuration\":360}"
 
 
-    fun test() {
+    fun testJson() {
+        val replyQueue = connector.channel.queueDeclare(QUEUES.CPH_REPLY_QUEUE, true, false, false, null).queue
+        val properties = AMQP.BasicProperties.Builder()
+                .replyTo(replyQueue)
+                .build()
+
+        connector.basicRequestReplyPublish(EXCHANGE.CPH_JSON_BANK, properties, jsonMessage)
+
+        connector.channel.close()
+        connector.connection.close()
+    }
+
+    fun testXml() {
         val replyQueue = connector.channel.queueDeclare(QUEUES.CPH_REPLY_QUEUE, true, false, false, null).queue
         val properties = AMQP.BasicProperties.Builder()
                 .replyTo(replyQueue)
@@ -26,5 +38,7 @@ class RemoteEntryRequestTester {
 
 fun main(args: Array<String>) {
     val b = RemoteEntryRequestTester()
-    b.test()
+    b.testJson()
+    //b.testXml()
 }
+

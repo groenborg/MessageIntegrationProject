@@ -38,6 +38,7 @@ class Normalizer : IMessageComponent {
 
     override fun componentAction(msg: String) {
         var convertedMessage: String = ""
+        println(msg)
 
         if (jsonTranslator.isJsonRequest(msg)) {
             convertedMessage = jsonTranslator.convertToXml(msg)

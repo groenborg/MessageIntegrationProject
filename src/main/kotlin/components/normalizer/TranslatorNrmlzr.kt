@@ -21,12 +21,11 @@ class JsonTranslator() {
         } catch (e: Exception) {
             return false
         }
-
-
     }
 
     fun convertToXml(jsonString: String): String {
         val jsonObj = jsonParser.fromJson(jsonString, RequestObject::class.java)
+        jsonObj.bankName = "cphJsonBank"
         return xmlParser.toXML(jsonObj)
     }
 }
@@ -41,6 +40,7 @@ class XmlTranslator {
         val xmlObj = RequestObject()
         xmlObj.ssn = obj.ssn
         xmlObj.interestRate = obj.interestRate
+        xmlObj.bankName = "cphxmlbank"
         return xmlParser.toXML(xmlObj)
 
     }

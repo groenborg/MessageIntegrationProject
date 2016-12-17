@@ -8,13 +8,13 @@ import components.rulebase.RuleEnricher
 
 fun main(args: Array<String>) {
 
-    CreditEnricher().bindQueue("credit").startConsume()
-    RuleEnricher().bindQueue("rule").startConsume()
+    //CreditEnricher().bindQueue("credit").startConsume()
+    //RuleEnricher().bindQueue("rule").startConsume()
 
     //Normalizer().bindQueue("").startConsume()
 
-    //Aggregator().bindQueue("agg").startConsume()
-    //Normalizer().bindQueue("normalizer").startConsume()
+    Aggregator().bindQueue("agg").startConsume()
+    Normalizer().bindQueue("normalizer").startConsume()
 
 }
 

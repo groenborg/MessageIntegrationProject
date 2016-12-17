@@ -21,7 +21,13 @@ class RequestObject {
     @JvmField var duration: String? = ""
     @JvmField var creditScore: String? = ""
     @JvmField var interestRate: String? = ""
+    @JvmField var bankName: String = ""
+}
 
+
+class AggRequest {
+    @JvmField var ssn: String? = ""
+    @JvmField var numOfBanks: String? = ""
 }
 
 class RuleRequestObject {
