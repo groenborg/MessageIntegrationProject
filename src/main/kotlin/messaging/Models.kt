@@ -20,14 +20,12 @@ class RequestObject {
     @JvmField var currency: String? = ""
     @JvmField var duration: String? = ""
     @JvmField var creditScore: String? = ""
-    @JvmField var interestRate: String? = ""
-    @JvmField var bankName: String = ""
 }
 
 
 class AggRequest {
-    @JvmField var ssn: String? = ""
-    @JvmField var numOfBanks: String? = ""
+    @JvmField var ssn: String? = null
+    @JvmField var numOfBanks: String? = null
 }
 
 class RuleRequestObject {
@@ -60,9 +58,10 @@ class Rule {
     @JvmField var bank: Array<Bank>? = null
 }
 
-class JsonLoanRequest {
+class LoanOffer {
     @JvmField var ssn: String? = null
     @JvmField var interestRate: String? = null
+    @JvmField var bankName: String? = null
 }
 
 class Bank {

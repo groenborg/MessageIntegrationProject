@@ -1,7 +1,7 @@
 package components.normalizer
 
 import com.google.gson.Gson
-import messaging.JsonLoanRequest
+import messaging.LoanOffer
 import messaging.RequestObject
 import utils.XMLParser
 
@@ -16,7 +16,7 @@ class JsonTranslator() {
 
     fun isJsonRequest(jsonString: String): Boolean {
         try {
-            val resultObj = jsonParser.fromJson(jsonString, JsonLoanRequest::class.java)
+            val resultObj = jsonParser.fromJson(jsonString, LoanOffer::class.java)
             return resultObj.ssn != null && resultObj.interestRate != null
         } catch (e: Exception) {
             return false
@@ -24,24 +24,21 @@ class JsonTranslator() {
     }
 
     fun convertToXml(jsonString: String): String {
-        val jsonObj = jsonParser.fromJson(jsonString, RequestObject::class.java)
+        val jsonObj = jsonParser.fromJson(jsonString, LoanOffer::class.java)
         jsonObj.bankName = "cphJsonBank"
         return xmlParser.toXML(jsonObj)
     }
 }
 
 class XmlTranslator {
+    var responseXmlParser = XMLParser(LoanOffer::class.java)
 
-    val xmlParser = XMLParser(RequestObject::class.java)
-    var responseXmlParser = XMLParser(JsonLoanRequest::class.java)
 
     fun convertXml(text: String): String {
-        val obj = responseXmlParser.fromXML(text)
-        val xmlObj = RequestObject()
-        xmlObj.ssn = obj.ssn
-        xmlObj.interestRate = obj.interestRate
-        xmlObj.bankName = "cphxmlbank"
-        return xmlParser.toXML(xmlObj)
+        println(text)
 
+        val obj = responseXmlParser.fromXML(text)
+        obj.bankName = "cphXmlBank"
+        return responseXmlParser.toXML(obj)
     }
 }

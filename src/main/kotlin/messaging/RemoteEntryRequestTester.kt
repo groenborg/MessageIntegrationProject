@@ -6,7 +6,7 @@ import com.rabbitmq.client.AMQP
 class RemoteEntryRequestTester {
 
     var connector = MsgFactory.buildRemoteConnector()
-    val xmlMessage = "<LoanRequest><ssn>12345678</ssn><creditScore>685</creditScore><loanAmount>1000.0</loanAmount><loanDuration>1973-01-01 01:00:00.0 CET</loanDuration></LoanRequest>"
+    val xmlMessage = "<LoanRequest><ssn>1605789787</ssn><creditScore>685</creditScore><loanAmount>1000.0</loanAmount><loanDuration>1973-01-01 01:00:00.0 CET</loanDuration></LoanRequest>"
     val jsonMessage = "{\"ssn\":1605789787,\"creditScore\":598,\"loanAmount\":10.0,\"loanDuration\":360}"
 
 
@@ -17,9 +17,6 @@ class RemoteEntryRequestTester {
                 .build()
 
         connector.basicRequestReplyPublish(EXCHANGE.CPH_JSON_BANK, properties, jsonMessage)
-
-        connector.channel.close()
-        connector.connection.close()
     }
 
     fun testXml() {
@@ -29,16 +26,19 @@ class RemoteEntryRequestTester {
                 .build()
 
         connector.basicRequestReplyPublish(EXCHANGE.CPH_XML_BANK, properties, xmlMessage)
+    }
 
+
+    fun close() {
         connector.channel.close()
         connector.connection.close()
-
     }
 }
 
 fun main(args: Array<String>) {
     val b = RemoteEntryRequestTester()
-    b.testJson()
-    //b.testXml()
+    //b.testJson()
+    b.testXml()
+    b.close()
 }
 
