@@ -46,15 +46,19 @@ class CreditEnricher : IMessageComponent {
         val service = CreditScoreService()
         val proxy = service.creditScoreServicePort
 
-        var rO = XMLParser(RequestObject::class.java).fromXML(msg)
+        val rO = XMLParser(RequestObject::class.java).fromXML(msg)
 
-        var creditScore = proxy.creditScore(rO.ssn.orEmpty()).toString()
+        val creditScore = proxy.creditScore(rO.ssn.orEmpty())
 
-        var newRequest = RequestObject(rO.ssn, rO.amount, rO.currency, rO.duration, creditScore)
+        //Currently request stops if service return -1
+        if(creditScore == -1){
+            println("Error in SSN")
+        }else {
+            val newRequest = RequestObject(rO.ssn, rO.amount, rO.currency, rO.duration, creditScore.toString())
 
-        var xmlObject = XMLParser(RequestObject::class.java).toXML(newRequest)
+            val xmlObject = XMLParser(RequestObject::class.java).toXML(newRequest)
 
-        connector.basicPublish(exchange, arrayOf("rule"), xmlObject)
-
+            connector.basicPublish(exchange, arrayOf("rule"), xmlObject)
+        }
     }
 }

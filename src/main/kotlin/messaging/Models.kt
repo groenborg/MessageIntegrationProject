@@ -23,14 +23,23 @@ class RequestObject {
 
 }
 
-class  RuleRequest{
+class  RuleRequestObject{
+
+    constructor(ssn: String?, amount: String?, currency: String?, duration: String?, creditScore: String?, rules : RuleObject?) {
+        this.ssn = ssn
+        this.amount = amount
+        this.currency = currency
+        this.duration = duration
+        this.creditScore = creditScore
+        this.rules = rules
+    }
+
     @JvmField var ssn: String? = ""
     @JvmField var amount: String? = ""
     @JvmField var currency: String? = ""
     @JvmField var duration: String? = ""
     @JvmField var creditScore: String? = ""
     @JvmField var rules: RuleObject? = null
-
 }
 
 class RuleObject{
