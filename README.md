@@ -105,6 +105,32 @@ When receiving rules from our Rule Base the format COULD be the following in XML
  </rules>
 ```
 
+
+####Aggregator
+An aggregator is a stagefull filter, which aggregates messages which have been divide by a *splitter*
+and processed by several vendors. It saves all messages until completeness conditions have been met.
+  
+  
+  To create an aggregator a message need to contain:
+  1. **Correlation identifier** - Which message does it belong to
+  1. **Completeness condition** - Conditions for which the message is ready to be sent
+  1. **Aggregation algorithm** - A method on how we combine individual messages
+  
+  In our solution, our **Aggregation algorithm** uses to maps. One for an aggregation message, and
+  one for a list of offers from the banks.
+  
+  There are different types of strategies you can use for your completeness conditions: 
+  1. **Wait for all** - Wait for all eternity for the messages to come
+  1. **Timeout** - Wait for a specific amount of time and send whatever you have
+  1. **External event** - Let an external event trigger your sending mechanism
+
+####Normalizer
+A normalizer is a composite component, composed of a *Router* and a *Translator*. The Router reads the
+ message format and directs it to the right translator for proper translation.
+ 
+1. A *Translator* uses a filter to convert data from one format to another
+1. A *Router* Is a component which directs messages into queues based on specific requirements
+
 ####Link to RuleBase Service
 https://github.com/Robertelving/RuleBaseService
 
