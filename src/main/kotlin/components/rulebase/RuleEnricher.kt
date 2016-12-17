@@ -1,16 +1,19 @@
-package components
+package components.rulebase
 
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
+import components.IMessageComponent
 import messaging.EXCHANGE
 import messaging.MsgFactory
 import messaging.QUEUES
+import utils.XMLParser
+import messaging.RuleObject
+import messaging.Rule
 
 /**
  * Created by simon on 09/12/2016.
  */
-
 
 class RuleEnricher : IMessageComponent {
 
@@ -43,8 +46,28 @@ class RuleEnricher : IMessageComponent {
 
     override fun componentAction(msg: String) {
         println("I WAS AN RULE ACTION")
-    }
 
+        /*
+        val service = GetRulesService_Service()
+        val proxy = service.getRulesServicePort
+
+        var rules = XMLParser(RuleObject::class.java).fromXML(proxy.rules)
+
+        for (rule in rules.rule.orEmpty()){
+            println()
+            println("---------------------")
+            println(rule.min)
+            println(rule.max)
+            for (bank in rule.bank.orEmpty()){
+                println(bank.bankNo)
+            }
+            println("---------------------")
+            println()
+        }
+
+        */
+
+    }
 
 }
 

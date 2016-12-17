@@ -23,11 +23,27 @@ class RequestObject {
 
 }
 
-class RuleRequest {
+class  RuleRequest{
+    @JvmField var ssn: String? = ""
+    @JvmField var amount: String? = ""
+    @JvmField var currency: String? = ""
+    @JvmField var duration: String? = ""
+    @JvmField var creditScore: String? = ""
+    @JvmField var rules: RuleObject? = null
 
 }
 
-class RuleObject {
+class RuleObject{
+    @JvmField var rule: Array<Rule>? = null
+}
 
 
+class  Rule{
+    @JvmField var min: String? = ""
+    @JvmField var max: String? = ""
+    @JvmField var bank: Array<Bank>? = null
+}
+
+class Bank{
+    @JvmField var bankNo: String? = ""
 }
