@@ -7,6 +7,8 @@ import components.IMessageComponent
 import messaging.EXCHANGE
 import messaging.MsgFactory
 import messaging.QUEUES
+import messaging.RequestObject
+import utils.XMLParser
 
 
 class CreditEnricher : IMessageComponent {
@@ -39,24 +41,24 @@ class CreditEnricher : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
-        println("I WAS AN CREDIT ACTION")
+        println("A CREDIT ACTION OCCURRED")
 
         val service = CreditScoreService()
         val proxy = service.creditScoreServicePort
 
-        println(proxy.creditScore("240790-1285"))
+        val rO = XMLParser(RequestObject::class.java).fromXML(msg)
 
-        connector.basicPublish(exchange, arrayOf("credit"), msg)
+        val creditScore = proxy.creditScore(rO.ssn.orEmpty())
 
+        //Currently request stops if service return -1
+        if(creditScore == -1){
+            println("Error in SSN")
+        }else {
+            val newRequest = RequestObject(rO.ssn, rO.amount, rO.currency, rO.duration, creditScore.toString())
 
-        /*
-        var tmp = XMLParser(RequestObject::class.java).fromXML(msg)
+            val xmlObject = XMLParser(RequestObject::class.java).toXML(newRequest)
 
-        println("---------------------")
-        println("SSN : " + tmp.ssn)
-        println("Amount : " + tmp.amount)
-        println("Duration : " + tmp.duration)
-        */
-
+            connector.basicPublish(exchange, arrayOf("rule"), xmlObject)
+        }
     }
 }

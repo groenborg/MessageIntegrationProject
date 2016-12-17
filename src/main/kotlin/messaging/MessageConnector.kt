@@ -77,7 +77,7 @@ class Connector(var connection: Connection, var channel: Channel) {
     }
 
     fun basicRequestReplyPublish(exchange: String, properties: AMQP.BasicProperties, message: String) {
-        channel.basicPublish(exchange, "", properties, messages.toByteArray())
+        channel.basicPublish(exchange, "", properties, message.toByteArray())
     }
 
 }
