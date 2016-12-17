@@ -105,8 +105,7 @@ When receiving rules from our Rule Base the format COULD be the following in XML
  </rules>
 ```
 
-####
-Link to RuleBase Service
+####Link to RuleBase Service
 https://github.com/Robertelving/RuleBaseService
 
 ####Link to SOAP based Bank
