@@ -20,6 +20,7 @@ class RequestObject {
     @JvmField var currency: String? = ""
     @JvmField var duration: String? = ""
     @JvmField var creditScore: String? = ""
+    @JvmField var interestRate: String? = ""
 
 }
 
@@ -30,4 +31,9 @@ class RuleRequest {
 class RuleObject {
 
 
+}
+
+class JsonLoanRequest {
+    @JvmField var ssn: String? = null
+    @JvmField var interestRate: String? = null
 }

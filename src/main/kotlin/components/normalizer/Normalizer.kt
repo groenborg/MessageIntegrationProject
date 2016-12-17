@@ -7,48 +7,44 @@ import components.IMessageComponent
 import messaging.EXCHANGE
 import messaging.MsgFactory
 import messaging.QUEUES
-import messaging.RequestObject
-import utils.XMLParser
+
 
 class Normalizer : IMessageComponent {
 
-    var connector = MsgFactory.buildMessageConnector()
-    var xmlParser = XMLParser(RequestObject::class.java)
-    var severity: String = ""
+    var localConnector = MsgFactory.buildMessageConnector()
+    val remoteConnector = MsgFactory.buildRemoteConnector()
 
-    val queue = QUEUES.NORMALIZER
-    val exchange = EXCHANGE.DEFAULT
+    val jsonTranslator = JsonTranslator()
+    val xmlTranslator = XmlTranslator()
+
+    val replyQueue = QUEUES.CPH_REPLY_QUEUE
+    val localExchange = EXCHANGE.DEFAULT
 
 
     override fun bindQueue(severity: String): IMessageComponent {
-        this.severity = severity
-        connector.declareQueue(queue, true)
-        connector.bindQueueToExchange(queue, exchange, arrayOf(severity))
+        remoteConnector.declareQueue(replyQueue, true)
         return this
     }
 
     override fun startConsume() {
-        val consumer = object : DefaultConsumer(connector.channel) {
+        val consumer = object : DefaultConsumer(remoteConnector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
-
                 componentAction(String(body!!, Charsets.UTF_8))
-
             }
         }
-        connector.channel.basicConsume(queue, true, consumer)
-        println("[NORMALIZER]: listening on routing key => " + severity)
+        consumer.channel.basicConsume(replyQueue, true, consumer)
+        println("[NORMALIZER]: now listening")
     }
 
     override fun componentAction(msg: String) {
-        val requestObject = xmlParser.fromXML(msg)
-        var messageToSend: String = ""
+        var convertedMessage: String = ""
 
-        requestObject.currency = "NORMALIZER"
-        messageToSend = xmlParser.toXML(requestObject)
-
-        connector.basicPublish(exchange, arrayOf("agg"), message = messageToSend)
-
-        println("[NORMALIZER]: RECEIVED AND SENT")
+        if (jsonTranslator.isJsonRequest(msg)) {
+            convertedMessage = jsonTranslator.convertToXml(msg)
+        } else {
+            convertedMessage = xmlTranslator.convertXml(msg)
+        }
+        localConnector.basicPublish(localExchange, arrayOf("agg"), message = convertedMessage)
     }
 
 }

@@ -5,7 +5,7 @@ import utils.XMLParser
 
 
 /**
- * Serves as a test to fire a message through the whole system
+ * Serves as a test to fire a xmlMessage through the whole system
  */
 open class Sender {
 
@@ -27,7 +27,7 @@ open class Sender {
         for (i in 1..4) {
             connector.basicPublish(EXCHANGE.DEFAULT, arrayOf(severity), message = message)
         }
-        //println("[SENDER]:[SENT][MESSAGE] -- '$message'")
+        //println("[SENDER]:[SENT][MESSAGE] -- '$xmlMessage'")
 
 
         connector.declareQueue("endpoint", true)

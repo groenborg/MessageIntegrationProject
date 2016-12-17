@@ -31,7 +31,7 @@ downloading start the image using:
 `docker run -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password --name msg-app rabbitmq:3.6.6-management`
 
 This will setup the container with a default user with username: `user` and
-password:`password`, and bind rabbitmq's message port and web interface port.
+password:`password`, and bind rabbitmq's xmlMessage port and web interface port.
 
 You can now access the RabbitMQ dashboard on: `localhost:15672`
 

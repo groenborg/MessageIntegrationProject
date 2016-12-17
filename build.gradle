@@ -19,11 +19,13 @@ mainClassName = "RecvKt"
 
 repositories {
     mavenCentral()
+
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile group: 'com.rabbitmq', name: 'amqp-client', version: '3.6.5'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
 }
 
 task startRecv(type: JavaExec){

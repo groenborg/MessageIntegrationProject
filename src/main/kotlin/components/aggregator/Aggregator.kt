@@ -39,11 +39,14 @@ class Aggregator : IMessageComponent {
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
-        println("[AGGREGATOR]: listening on routing key => " + severity)
+        println("[AGGREGATOR]: now listening")
     }
 
     override fun componentAction(msg: String) {
+
+        println(msg)
         val messageObject = xmlParser.fromXML(msg)
+
         var message: String = ""
 
         messageObject.currency = "AGGREGATOR"
