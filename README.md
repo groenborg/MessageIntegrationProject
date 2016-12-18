@@ -151,6 +151,27 @@ A normalizer is a composite component, composed of a *Router* and a *Translator*
 1. A *Translator* uses a filter to convert data from one format to another
 1. A *Router* Is a component which directs messages into queues based on specific requirements
 
+####Architecture
+
+The basic architecture is as described in the assignment. The loanbroker is composed by 5 basic components: 
+
+1. Enrichers - Credit & Rule
+1. Recipient List
+2. Translators - One for each bank; 4 in all
+3. Normalizer 
+4. Aggregator
+
+The components follow the patterns after which they are named, and all written in kotlin, a jvm based language, using the rabbitmq client -v3.6.5. 
+
+All components use the Subscribe/Emit publishing pattern described by rabbitmq [subscribe/emit](https://www.rabbitmq.com/tutorials/tutorial-four-java.html), we use a routing key/severity to send messages between each component.  NOTE: in our design we used named queues; and that is not necessary when subscribing to an exchange with a routing key. This was a design decision to keep an overview of all the channels used.  
+
+There are some flaws in the architecture
+
+**Splitter-aggragator coupling** - This is weird design couples the splitter and aggregator together, so they can't be exchanged easily. The splitter keeps data over how many banks a message is distributed to, and the aggregator needs that information for its *completion condition*. The banks will not relay that extra information in their loan offer responses, so we were forced to make the coupling
+
+**Solution** 
+A solution could be to make the banks more verbose and let extra information slip through. That way we can send the extra information the aggregator needs and remove the coupling. 
+
 ####Link to RuleBase Service
 https://github.com/Robertelving/RuleBaseService
 
