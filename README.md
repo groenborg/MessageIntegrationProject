@@ -126,7 +126,7 @@ There are two major ways to implement the Recipient List:
 
 In our solution we have chosen approach #1
 
-####Aggregator
+###Aggregator
 An aggregator is a stagefull filter, which aggregates messages which have been divide by a *splitter*
 and processed by several vendors. It saves all messages until completeness conditions have been met.
   
@@ -144,7 +144,7 @@ and processed by several vendors. It saves all messages until completeness condi
   1. **Timeout** - Wait for a specific amount of time and send whatever you have
   1. **External event** - Let an external event trigger your sending mechanism
 
-####Normalizer
+###Normalizer
 A normalizer is a composite component, composed of a *Router* and a *Translator*. The Router reads the
  message format and directs it to the right translator for proper translation.
  
