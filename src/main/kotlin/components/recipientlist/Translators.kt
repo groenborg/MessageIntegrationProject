@@ -17,11 +17,11 @@ class BankTranslator1 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
 
     private val queue = QUEUES.BANK_TRANSLATOR1
-    private val exchange = EXCHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
-        connector.bindQueueToExchange(queue, exchange, severity = arrayOf("EXCELLENT"))
+        connector.bindQueueToExchange(queue, exchange, severity = arrayOf(severity))
         return this
     }
 
@@ -41,7 +41,11 @@ class BankTranslator1 : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
-        // TODO: Do the actual conversion of the data and publish to banks
+        /*val cphQueue = QUEUES.CPH_REPLY_QUEUE
+        val cphQueue = EXCHANGE.CPH_JSON_BANK
+
+        remoteConnector.declareQueue(queue, true)
+        remoteConnector.basicRequestReplyPublish(exchange, AMQP.BasicProperties.Builder().replyTo(queue).build), "I am a message who will return in another queue"*/
     }
 
 }
@@ -51,11 +55,11 @@ class BankTranslator2 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
 
     private val queue = QUEUES.BANK_TRANSLATOR2
-    private val exchange = EXCHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
-        connector.bindQueueToExchange(queue, exchange, severity = arrayOf("EXCELLENT", "GOOD", "AVERAGE"))
+        connector.bindQueueToExchange(queue, exchange, severity = arrayOf(severity))
         return this
     }
 
@@ -85,11 +89,11 @@ class BankTranslator3 : IMessageComponent {
     private val connector = MsgFactory.buildMessageConnector();
 
     private val queue = QUEUES.BANK_TRANSLATOR3
-    private val exchange = EXCHANGE.DEFAULT;
+    private val exchange = EXCHANGE.DEFAULT
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
-        connector.bindQueueToExchange(queue, exchange, severity = arrayOf("EXCELLENT", "GOOD", "AVERAGE", "POOR", "BAD", "MISERABLE"))
+        connector.bindQueueToExchange(queue, exchange, severity = arrayOf(severity))
         return this
     }
 
@@ -123,7 +127,7 @@ class BankTranslator4 : IMessageComponent {
 
     override fun bindQueue(severity: String): IMessageComponent {
         connector.declareQueue(queue, true)
-        connector.bindQueueToExchange(queue, exchange, severity = arrayOf("POOR", "BAD", "MISERABLE"))
+        connector.bindQueueToExchange(queue, exchange, severity = arrayOf(severity))
         return this
     }
 
@@ -147,3 +151,4 @@ class BankTranslator4 : IMessageComponent {
     }
 
 }
+

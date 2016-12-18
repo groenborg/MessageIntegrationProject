@@ -56,3 +56,8 @@ class  Rule{
 class Bank{
     @JvmField var bankNo: String? = ""
 }
+
+class AggRequest{
+    @JvmField var ssn: String? = ""
+    @JvmField var numOfBanks: String? = ""
+}

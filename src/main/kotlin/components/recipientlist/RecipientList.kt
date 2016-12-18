@@ -4,10 +4,7 @@ import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
 import components.IMessageComponent
-import messaging.EXCHANGE
-import messaging.MsgFactory
-import messaging.QUEUES
-import messaging.RequestObject
+import messaging.*
 import utils.XMLParser
 
 /**
@@ -48,31 +45,56 @@ class RecipientList : IMessageComponent {
 
     // Since this RecipientList functions as a Router, it will not enrich the data
     override fun componentAction(msg: String) {
-        val data = XMLParser(RequestObject::class.java).fromXML(msg);
+        val data = XMLParser(RuleRequestObject::class.java).fromXML(msg);
 
-        // Rule: if currentscore is between a and b, then publish to c
+        //Example on how to print rules
+        val rules = data.rules;
 
-        // BUILD ARRAY OF EXTRACTED RULES FROM XML
+                if (rules != null) {
+                    for (rule in rules.rule.orEmpty()) {
+                        var min = 0;
+                        var max = 0;
+                        if(rule.min != null && rule.max != null){
+                            min = Integer.parseInt(rule.min)
+                            max = Integer.parseInt(rule.max)
+                        }
 
-        // ITERATE THROUGH EACH INSTANCE OF THE ARRAY
-            // FOR EACH INSTANCE MAKE A CONDITION, CHECKING IF currentscore IS BETWEEN minscore and maxscore
-                // IF SO, DO THE BASIC PUBLISH WITH THE SEVERITY OF creditscore
+                        for (bank in rule.bank.orEmpty()) {
+                            when (Integer.parseInt(data.creditScore)){
+                                in min..max -> connector.basicPublish(exchange, arrayOf("translator" + bank.bankNo), msg)
+                            }
+                        }
+                    }
+                }
 
-
-        // (DOING IT THIS WAY, THE RECIPIENT LIST IS DYNAMIC, AND YOU CAN ADD MORE RECIPIENTS IN THE FUTURE
-        //  AND EVEN CHANGE THE RULES ON THE FLY)
-
-        /*when (data.creditScore.toInt()){
-            in 720..800 -> connector.basicPublish(exchange, severity = arrayOf("EXCELLENT"), message = msg)
-            in 680..719 -> connector.basicPublish(exchange, severity = arrayOf("GOOD"), message = msg)
-            in 620..679 -> connector.basicPublish(exchange, severity = arrayOf("AVERAGE"), message = msg)
-            in 580..619 -> connector.basicPublish(exchange, severity = arrayOf("POOR"), message = msg)
-            in 500..579 -> connector.basicPublish(exchange, severity = arrayOf("BAD"), message = msg)
-            in 0..500 -> connector.basicPublish(exchange, severity = arrayOf("MISERABLE"), message = msg)
-        }
-
-        */
+        // Sending message to the aggregator
+        var aggMsg = "<AggRequest><ssn>" + data.ssn + "</ssn>" + "<numOfBanks>" + countDistinctBanks(data) + "</numOfBanks></AggRequest>";
+        connector.basicPublish(exchange, arrayOf("agg"), aggMsg);
     }
 
+    fun countDistinctBanks(ruleRequestObject: RuleRequestObject): Int{
+        val numbers: MutableList<Int> = mutableListOf()
+        val rules = ruleRequestObject.rules;
+        if(rules != null){
+            for (rule in rules.rule.orEmpty()){
+                for(bank in rule.bank.orEmpty()){
+                    val tempBankNo = Integer.parseInt(bank.bankNo)
+                    if(!consistsInArray(tempBankNo, numbers)){
+                        numbers.add(tempBankNo)
+                    }
+                } // Iterating banks
+            } // Iterating rules
+        }
+        return numbers.size+1
+    }
+
+    fun consistsInArray(number: Int, collection: List<Int>): Boolean{
+        for(i in collection.indices){
+            if(number == collection.get(i)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
