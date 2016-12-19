@@ -15,6 +15,7 @@ object QUEUES {
     val CPH_REPLY_QUEUE = "src_reply_queue"
     val ENRICHER_RULE = "er_queue"
     val ENRICHER_CREDIT = "ec_queue"
+    val ENRICHER_BANK = "eb_queue"
     val AGGREGATOR = "agg_queue"
     val NORMALIZER = "nmz_queue"
     val RECIPIENT_LIST = "rl_queue"
