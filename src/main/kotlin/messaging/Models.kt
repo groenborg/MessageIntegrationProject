@@ -30,13 +30,23 @@ class AggRequest {
 
 class RuleRequestObject {
 
-    constructor(ssn: String?, amount: String?, currency: String?, duration: String?, creditScore: String?, rules: RuleObject?) {
+    constructor()
+
+    constructor(ssn: String?, amount: String?, currency: String?, duration: String?, creditScore: String?){
         this.ssn = ssn
         this.amount = amount
         this.currency = currency
         this.duration = duration
         this.creditScore = creditScore
-        this.rules = rules
+    }
+
+    constructor(ssn: String?, amount: String?, currency: String?, duration: String?, creditScore: String?, rule: Array<rule>) {
+        this.ssn = ssn
+        this.amount = amount
+        this.currency = currency
+        this.duration = duration
+        this.creditScore = creditScore
+        this.rule = rule
     }
 
     @JvmField var ssn: String? = ""
@@ -44,18 +54,17 @@ class RuleRequestObject {
     @JvmField var currency: String? = ""
     @JvmField var duration: String? = ""
     @JvmField var creditScore: String? = ""
-    @JvmField var rules: RuleObject? = null
+    @JvmField var rule: Array<rule>? = arrayOf()
 }
 
 class RuleObject {
-    @JvmField var rule: Array<Rule>? = null
+    @JvmField var rule: Array<rule>? = null
 }
 
-
-class Rule {
+class rule {
     @JvmField var min: String? = ""
     @JvmField var max: String? = ""
-    @JvmField var bank: Array<Bank>? = null
+    @JvmField var bank: Array<bank>? = arrayOf()
 }
 
 class LoanOffer {
@@ -69,7 +78,7 @@ class LoanOffer {
     @JvmField var bankName: String? = null
 }
 
-class Bank {
-    @JvmField var bankNo: String? = ""
+class bank {
+    @JvmField var bankno: String? = ""
 }
 

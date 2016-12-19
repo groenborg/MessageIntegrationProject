@@ -41,19 +41,43 @@ class RuleEnricher : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
+
         println("I WAS AN RULE ACTION")
 
         val service = GetRulesService_Service()
         val proxy = service.getRulesServicePort
+/*
+        println(proxy.rules)
+
+
+        var test = XMLParser(RuleObject::class.java).fromXML(proxy.rules)
+        var test2 = XMLParser(RuleObject::class.java).toXML(test)
+
+        var test3 = XMLParser(RuleObject::class.java).fromXML(test2)
+
+        println()
+        println(test3.rule!!.size)
+
+        for (rule in test3.rule!!){
+            println(rule.min)
+            println(rule.max)
+            for (b in rule.bank!!){
+                println(b.bankNo)
+            }
+        }
+
+
+*/
 
         val rules = XMLParser(RuleObject::class.java).fromXML(proxy.rules)
+
         val rO = XMLParser(RequestObject::class.java).fromXML(msg)
 
-        val newRequestObject = RuleRequestObject(rO.ssn, rO.amount, rO.currency, rO.duration, rO.creditScore, rules)
+        val newRequestObject = RuleRequestObject(rO.ssn!!, rO.amount!!, rO.currency!!, rO.duration!!, rO.creditScore!!, rules.rule!!)
 
         val xmlMessage = XMLParser(RuleRequestObject::class.java).toXML(newRequestObject)
 
-        connector.basicPublish(exchange, arrayOf("recipient"),xmlMessage)
+        connector.basicPublish(exchange, arrayOf("recipient"), xmlMessage)
 
     }
 
