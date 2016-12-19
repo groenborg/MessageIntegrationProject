@@ -18,13 +18,14 @@ class Normalizer : IMessageComponent {
     val xmlTranslator = XmlTranslator()
 
     val remoteReplyQueue = QUEUES.CPH_REPLY_QUEUE
-    val localReplyQueue = QUEUES.NORMALIZER
+    val localQueue = QUEUES.NORMALIZER
     val localExchange = EXCHANGE.DEFAULT
 
 
     override fun bindQueue(severity: String): IMessageComponent {
         remoteConnector.declareQueue(remoteReplyQueue, true)
-        localConnector.declareQueue(localReplyQueue, true)
+        localConnector.declareQueue(localQueue, true)
+        localConnector.bindQueueToExchange(localQueue, localExchange, arrayOf(severity))
         return this
     }
 
@@ -39,7 +40,7 @@ class Normalizer : IMessageComponent {
                 componentAction(String(body!!, Charsets.UTF_8))
             }
         }
-        consumer.channel.basicConsume(localReplyQueue, true, consumer)
+        consumer.channel.basicConsume(localQueue, true, consumer)
         println("[NORMALIZER]: now listening on local server")
     }
 

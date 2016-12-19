@@ -9,7 +9,7 @@ import components.soapbank.BankEnricher
 
 fun main(args: Array<String>) {
 
-/*
+
     CreditEnricher().bindQueue("credit").startConsume()
 
     RuleEnricher().bindQueue("rule").startConsume()
@@ -22,7 +22,7 @@ fun main(args: Array<String>) {
     BankTranslator4().bindQueue("translator4").startConsume()
 
     BankEnricher().bindQueue("soapbank").startConsume()
-*/
+
     Aggregator().bindQueue("agg").startConsume()
 
     Normalizer().bindQueue("normalizer").startConsume()
