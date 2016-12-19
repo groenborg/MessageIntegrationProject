@@ -60,8 +60,9 @@ class RecipientList : IMessageComponent {
                         if(rule.min != null && rule.max != null){
                             var min = rule.min!!.toInt()
                             var max = rule.min!!.toInt()
+                            var score = data.creditScore!!.toInt()
                             // Iterates through every bank and sends to the recipient if the creditscore is in the proper range
-                            if (data.creditScore!!.toInt() >= min && data.creditScore!!.toInt() < max)
+                            if (score >= min && score < max)
                             for (bank in rule.bank.orEmpty()) {
                                 connector.basicPublish(exchange, arrayOf("translator" + bank.bankNo), xmlRequestObject)
                             }

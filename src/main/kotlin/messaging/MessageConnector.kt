@@ -23,6 +23,7 @@ object QUEUES {
     val BANK_TRANSLATOR2 = "bt2_queue"
     val BANK_TRANSLATOR3 = "bt3_queue"
     val BANK_TRANSLATOR4 = "bt4_queue"
+    val RABBIT_MQ_BANK = "rabbitmqbank_queue"
 }
 
 
