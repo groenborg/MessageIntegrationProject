@@ -11,29 +11,47 @@ import messaging.QUEUES
 
 class Normalizer : IMessageComponent {
 
-    var localConnector = MsgFactory.buildMessageConnector()
+    val localConnector = MsgFactory.buildMessageConnector()
     val remoteConnector = MsgFactory.buildRemoteConnector()
 
     val jsonTranslator = JsonTranslator()
     val xmlTranslator = XmlTranslator()
 
-    val replyQueue = QUEUES.CPH_REPLY_QUEUE
+    val remoteReplyQueue = QUEUES.CPH_REPLY_QUEUE
+    val localQueue = QUEUES.NORMALIZER
     val localExchange = EXCHANGE.DEFAULT
 
 
     override fun bindQueue(severity: String): IMessageComponent {
-        remoteConnector.declareQueue(replyQueue, true)
+        remoteConnector.declareQueue(remoteReplyQueue, true)
+        localConnector.declareQueue(localQueue, true)
+        localConnector.bindQueueToExchange(localQueue, localExchange, arrayOf(severity))
         return this
     }
 
     override fun startConsume() {
+        localConsume()
+        remoteConsumer()
+    }
+
+    fun localConsume() {
+        val consumer = object : DefaultConsumer(localConnector.channel) {
+            override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
+                componentAction(String(body!!, Charsets.UTF_8))
+            }
+        }
+        consumer.channel.basicConsume(localQueue, true, consumer)
+        println("[NORMALIZER]: now listening on local server")
+    }
+
+    fun remoteConsumer() {
         val consumer = object : DefaultConsumer(remoteConnector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 componentAction(String(body!!, Charsets.UTF_8))
             }
         }
-        consumer.channel.basicConsume(replyQueue, true, consumer)
-        println("[NORMALIZER]: now listening")
+        consumer.channel.basicConsume(remoteReplyQueue, true, consumer)
+        println("[NORMALIZER]: now listening on remote server")
     }
 
     override fun componentAction(msg: String) {
