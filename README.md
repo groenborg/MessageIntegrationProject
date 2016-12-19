@@ -151,7 +151,7 @@ A normalizer is a composite component, composed of a *Router* and a *Translator*
 1. A *Translator* uses a filter to convert data from one format to another
 1. A *Router* Is a component which directs messages into queues based on specific requirements
 
-####Architecture
+###Architecture
 
 The basic architecture is as described in the assignment. The loanbroker is composed by 5 basic components: 
 
