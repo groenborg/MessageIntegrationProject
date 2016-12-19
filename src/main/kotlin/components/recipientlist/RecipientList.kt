@@ -34,7 +34,7 @@ class RecipientList : IMessageComponent {
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
-                
+
                 componentAction(message)
             }
         }
@@ -61,43 +61,18 @@ class RecipientList : IMessageComponent {
                     var min = rule.min!!.toInt()
                     var max = rule.max!!.toInt()
                     // Iterates through every bank and sends to the recipient if the creditscore is in the proper range
-                    if (data.creditScore!!.toInt() >= min && data.creditScore!!.toInt() < max)
+                    if (data.creditScore!!.toInt() >= min && data.creditScore!!.toInt() < max) {
                         for (bank in rule.bank!!) {
-
                             connector.basicPublish(exchange, arrayOf("translator" + bank.bankno), xmlRequestObject)
                         }
+
+                        // Sending message to the aggregator
+                        var aggMsg = "<AggRequest><ssn>" + data.ssn + "</ssn>" + "<numOfBanks>" + rule.bank!!.size + "</numOfBanks></AggRequest>";
+                        connector.basicPublish(exchange, arrayOf("agg"), aggMsg);
+                    }
                 }
             }
         }
-
-        // Sending message to the aggregator
-        var aggMsg = "<AggRequest><ssn>" + data.ssn + "</ssn>" + "<numOfBanks>" + countDistinctBanks(data) + "</numOfBanks></AggRequest>";
-        connector.basicPublish(exchange, arrayOf("agg"), aggMsg);
-    }
-
-    fun countDistinctBanks(ruleRequestObject: RuleRequestObject): Int {
-        val numbers: MutableList<Int> = mutableListOf()
-        val rules = ruleRequestObject.rule;
-        if (rules != null) {
-            for (rule in rules!!) {
-                for (bank in rule.bank.orEmpty()) {
-                    val tempBankNo = bank.bankno!!.toInt()
-                    if (!consistsInArray(tempBankNo, numbers)) {
-                        numbers.add(tempBankNo)
-                    }
-                } // Iterating banks
-            } // Iterating rules
-        }
-        return numbers.size
-    }
-
-    fun consistsInArray(number: Int, collection: List<Int>): Boolean {
-        for (i in collection.indices) {
-            if (number == collection.get(i)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
 
