@@ -44,7 +44,6 @@ class MsgFactory {
             return Connector(connection, channel)
         }
 
-
         fun buildRemoteConnector(): Connector {
             factory.host = "datdb.cphbusiness.dk"
             factory.username = "student"
@@ -53,7 +52,6 @@ class MsgFactory {
             val channel = connection.createChannel()
             return Connector(connection, channel)
         }
-
     }
 }
 

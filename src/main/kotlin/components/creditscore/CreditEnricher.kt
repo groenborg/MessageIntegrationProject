@@ -25,8 +25,6 @@ class CreditEnricher : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
@@ -37,6 +35,7 @@ class CreditEnricher : IMessageComponent {
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+        println("[CreditEnricher]: now listening")
 
     }
 
@@ -49,6 +48,9 @@ class CreditEnricher : IMessageComponent {
         val rO = XMLParser(RequestObject::class.java).fromXML(msg)
 
         val creditScore = proxy.creditScore(rO.ssn.orEmpty())
+
+        println("CreditScore Was : " + creditScore!!)
+        println()
 
         //Currently request stops if service return -1
         if(creditScore == -1){

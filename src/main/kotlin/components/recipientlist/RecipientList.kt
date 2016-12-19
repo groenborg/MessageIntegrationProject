@@ -29,8 +29,6 @@ class RecipientList : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
@@ -44,6 +42,7 @@ class RecipientList : IMessageComponent {
     // Since this RecipientList functions as a Router, it will not enrich the data
     override fun componentAction(msg: String) {
         println("I WAS RECIPIENT ACTION")
+        println()
 
         val data = XMLParser(RuleRequestObject::class.java).fromXML(msg)
 
@@ -65,7 +64,6 @@ class RecipientList : IMessageComponent {
                         for (bank in rule.bank!!) {
                             connector.basicPublish(exchange, arrayOf("translator" + bank.bankno), xmlRequestObject)
                         }
-
                         // Sending message to the aggregator
                         var aggMsg = "<AggRequest><ssn>" + data.ssn + "</ssn>" + "<numOfBanks>" + rule.bank!!.size + "</numOfBanks></AggRequest>";
                         connector.basicPublish(exchange, arrayOf("agg"), aggMsg);

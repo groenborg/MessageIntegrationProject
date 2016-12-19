@@ -39,13 +39,13 @@ class Aggregator : IMessageComponent {
         }
         connector.channel.basicConsume(queue, true, consumer)
         println("[AGGREGATOR]: now listening")
+        println()
     }
 
     /**
      * Distributes messages based on types
      */
     override fun componentAction(msg: String) {
-        println(msg)
 
         if (isAggMessage(msg)) {
             println("AGG MESSAGE")

@@ -37,6 +37,9 @@ class Normalizer : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
+        println("I WAS A NORMALIZER ACTION")
+        println(msg)
+
         var convertedMessage: String = ""
 
         if (jsonTranslator.isJsonRequest(msg)) {

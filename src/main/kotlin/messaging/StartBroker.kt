@@ -27,9 +27,9 @@ fun main(args: Array<String>) {
 
     BankEnricher().bindQueue("soapbank").startConsume()
 
-    Aggregator().bindQueue("agg").startConsume()
-
     Normalizer().bindQueue("normalizer").startConsume()
+
+    Aggregator().bindQueue("agg").startConsume()
 
 }
 

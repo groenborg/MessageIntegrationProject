@@ -26,15 +26,9 @@ class BankEnricher : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
-                val routingKey = envelope?.routingKey
-
-                println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
-
                 componentAction(message)
             }
         }
@@ -45,6 +39,7 @@ class BankEnricher : IMessageComponent {
     override fun componentAction(msg: String) {
         println()
         println("A SOAP BANK ACTION OCCURRED")
+        println()
 
         val service = BankLoanService()
         val proxy = service.bankLoanServicePort
@@ -56,6 +51,8 @@ class BankEnricher : IMessageComponent {
         val newInterestRequest = LoanOffer(rO.ssn.orEmpty(), interestRate.toString(), "soapBank")
 
         val xmlObject = XMLParser(LoanOffer::class.java).toXML(newInterestRequest)
+
+        println(xmlObject)
 
         connector.basicPublish(exchange, arrayOf("normalizer"), xmlObject)
 

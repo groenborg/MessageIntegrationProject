@@ -26,8 +26,6 @@ class RuleEnricher : IMessageComponent {
 
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
@@ -38,36 +36,16 @@ class RuleEnricher : IMessageComponent {
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+        println("[RuleEnricher]: now listening")
     }
 
     override fun componentAction(msg: String) {
 
         println("I WAS AN RULE ACTION")
+        println()
 
         val service = GetRulesService_Service()
         val proxy = service.getRulesServicePort
-/*
-        println(proxy.rules)
-
-
-        var test = XMLParser(RuleObject::class.java).fromXML(proxy.rules)
-        var test2 = XMLParser(RuleObject::class.java).toXML(test)
-
-        var test3 = XMLParser(RuleObject::class.java).fromXML(test2)
-
-        println()
-        println(test3.rule!!.size)
-
-        for (rule in test3.rule!!){
-            println(rule.min)
-            println(rule.max)
-            for (b in rule.bank!!){
-                println(b.bankNo)
-            }
-        }
-
-
-*/
 
         val rules = XMLParser(RuleObject::class.java).fromXML(proxy.rules)
 
@@ -80,24 +58,5 @@ class RuleEnricher : IMessageComponent {
         connector.basicPublish(exchange, arrayOf("recipient"), xmlMessage)
 
     }
-
 }
-
-
-/*         //Example on how to print rules
-        val test = newRequestObject.rules
-
-        if (test != null){
-        for (rule in test.rule.orEmpty()) {
-
-            println()
-            println("---------------------")
-            println(rule.min)
-            println(rule.max)
-            for (bank in rule.bank.orEmpty()) {
-                println(bank.bankNo)
-            }
-            println("---------------------")
-            println()
-        }*/
 

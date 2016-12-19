@@ -26,28 +26,25 @@ class BankTranslator1 : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
-                val routingKey = envelope?.routingKey
-                //println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
 
                 componentAction(message)
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+        println("[TRANSLATOR1]: JSONSchool now listening")
     }
 
     override fun componentAction(msg: String) {
-        // TODO optional translation
+        println("JSON - BANK : School / High End / Bank1")
 
         val cphQueue = QUEUES.CPH_REPLY_QUEUE
         val cphExchange = EXCHANGE.CPH_JSON_BANK
-
+/*
         remoteConnector.declareQueue(queue, true)
-        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), msg)
+        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), msg)*/
     }
 
 }
@@ -67,28 +64,25 @@ class BankTranslator2 : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
-                val routingKey = envelope?.routingKey
-                //println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
-
                 componentAction(message)
             }
         }
-
+        connector.channel.basicConsume(queue, true, consumer)
+        println("[TRANSLATOR2]: XMLSchool now listening")
     }
 
     override fun componentAction(msg: String) {
-        // TODO optional translation
+        println("XML - Bank : School / Good,Avg / Bank2")
 
         val cphQueue = QUEUES.CPH_REPLY_QUEUE
         val cphExchange = EXCHANGE.CPH_XML_BANK
 
         remoteConnector.declareQueue(cphQueue, true)
         remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), msg)
+
     }
 
 }
@@ -107,22 +101,18 @@ class BankTranslator3 : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
-                val routingKey = envelope?.routingKey
-                println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
-
                 componentAction(message)
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+        println("[TRANSLATOR3]: SOAP now listening")
     }
 
     override fun componentAction(msg: String) {
-        // TODO optional translation
+       println("XML - BANK : SOAP / ALL / Bank3")
        connector.basicPublish(exchange, arrayOf("soapbank"), msg)
     }
 
@@ -142,23 +132,20 @@ class BankTranslator4 : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
-                val routingKey = envelope?.routingKey
-                //println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
 
                 componentAction(message)
             }
         }
         connector.channel.basicConsume(queue, true, consumer)
+        println("[TRANSLATOR4]: Custom Rabbit now listening")
     }
 
     override fun componentAction(msg: String) {
-        // TODO optional translation
-        connector.basicPublish(exchange, arrayOf("rabbitmqbank"), msg)
+        println("XML - BANK : Custom Rabbit / BAD / Bank4")
+        //connector.basicPublish(exchange, arrayOf("rabbitmqbank"), msg)
     }
 
 }
