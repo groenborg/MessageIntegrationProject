@@ -26,6 +26,6 @@ interface BankLoanIF {
             @WebParam(name = "amount", targetNamespace = "")
             amount: Double,
             @WebParam(name = "duration", targetNamespace = "")
-            duration: Int): Int
+            duration: Int): Double
 
 }

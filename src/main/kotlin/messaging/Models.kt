@@ -59,6 +59,11 @@ class Rule {
 }
 
 class LoanOffer {
+    constructor(ssn: String?, interestRate: String?, bankName: String?) {
+        this.ssn = ssn
+        this.interestRate = interestRate
+        this.bankName = bankName
+    }
     @JvmField var ssn: String? = null
     @JvmField var interestRate: String? = null
     @JvmField var bankName: String? = null

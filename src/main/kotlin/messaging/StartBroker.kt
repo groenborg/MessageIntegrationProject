@@ -9,6 +9,7 @@ import components.recipientlist.BankTranslator1
 import components.recipientlist.BankTranslator2
 import components.recipientlist.BankTranslator3
 import components.recipientlist.BankTranslator4
+import components.soapbank.BankEnricher
 
 fun main(args: Array<String>) {
 
@@ -20,6 +21,7 @@ fun main(args: Array<String>) {
     BankTranslator2().bindQueue("translator2")
     BankTranslator3().bindQueue("translator3")
     BankTranslator4().bindQueue("translator4")
+    BankEnricher().bindQueue("soapbank").startConsume()
 
 
     //Normalizer().bindQueue("").startConsume()

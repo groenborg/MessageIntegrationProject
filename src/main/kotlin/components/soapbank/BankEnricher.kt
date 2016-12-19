@@ -6,6 +6,7 @@ import com.rabbitmq.client.Envelope
 import components.IMessageComponent
 import messaging.*
 import utils.XMLParser
+import messaging.LoanOffer
 
 /**
  * Created by Skroget on 19/12/2016.
@@ -31,6 +32,7 @@ class BankEnricher : IMessageComponent {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
                 val routingKey = envelope?.routingKey
+
                 println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
 
                 componentAction(message)
@@ -41,6 +43,7 @@ class BankEnricher : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
+        println()
         println("A SOAP BANK ACTION OCCURRED")
 
         val service = BankLoanService()
@@ -48,18 +51,13 @@ class BankEnricher : IMessageComponent {
 
         val rO = XMLParser(RequestObject::class.java).fromXML(msg)
 
-        val interestRate = proxy.getInterestRate(rO.ssn.orEmpty(), rO.creditScore as Int, rO.amount as Double, rO.duration as Int)
+        val interestRate = proxy.getInterestRate(rO.ssn.orEmpty(), rO.creditScore!!.toInt(), rO.amount!!.toDouble(), rO.duration!!.toInt())
 
-        //new RequestObject
-        //Parse
-        //Send to Simon
+        val newInterestRequest = LoanOffer(rO.ssn.orEmpty(), interestRate.toString(), "soapBank")
 
-        /*
-        val newInterestRequest = RequestObject(rO.ssn, rO.amount, rO.currency, rO.duration, creditScore.toString())
+        val xmlObject = XMLParser(LoanOffer::class.java).toXML(newInterestRequest)
 
-        val xmlObject = XMLParser(RequestObject::class.java).toXML(newRequest)
+        connector.basicPublish(exchange, arrayOf("normalizer"), xmlObject)
 
-        connector.basicPublish(exchange, arrayOf("rule"), xmlObject)
-*/
     }
 }

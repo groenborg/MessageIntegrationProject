@@ -46,11 +46,6 @@ class BankLoanService : Service(BankLoanService.__getWsdlLocation(), BankLoanSer
             return BANKLOANSERVICE_WSDL_LOCATION
         }
 
-        /*@JvmStatic fun main(args: Array<String>) {
-            val s = BankLoanService()
-            val p = s.bankLoanServicePort
-            System.out.println(p.getInterestRate("240790-1285", 500, 10000, 12))
-        }*/
     }
 
 }
