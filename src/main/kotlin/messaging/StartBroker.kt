@@ -15,11 +15,11 @@ fun main(args: Array<String>) {
 
     CreditEnricher().bindQueue("credit").startConsume()
     RuleEnricher().bindQueue("rule").startConsume()
-    RecipientList().bindQueue("recipient")
-    BankTranslator1().bindQueue("translator1")
-    BankTranslator2().bindQueue("translator2")
-    BankTranslator3().bindQueue("translator3")
-    BankTranslator4().bindQueue("translator4")
+    RecipientList().bindQueue("recipient").startConsume()
+    BankTranslator1().bindQueue("translator1").startConsume()
+    BankTranslator2().bindQueue("translator2").startConsume()
+    BankTranslator3().bindQueue("translator3").startConsume()
+    BankTranslator4().bindQueue("translator4").startConsume()
 
 
     //Normalizer().bindQueue("").startConsume()

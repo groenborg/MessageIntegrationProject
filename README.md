@@ -106,7 +106,7 @@ When receiving rules from our Rule Base the format COULD be the following in XML
 ```
 
 ### The routing logic
-The recipient-list we are including in our project is not a pre-defined component, since you can create it on multiple ways.
+The recipient-list is not a pre-defined component, since you can create it on multiple ways.
 It is more accurate to call the Recipient List a Message Integration Pattern.
 This type of router, can send a single Message to multiple recipients.
 

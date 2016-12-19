@@ -4,17 +4,17 @@ import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
 import components.IMessageComponent
-import messaging.EXCHANGE
-import messaging.MsgFactory
-import messaging.QUEUES
+import messaging.*
+import utils.XMLParser
 
 /**
  * Created by christophermortensen on 13/12/2016.
  */
 
-// JSON BANK
+// JSON BANK (CPH)
 class BankTranslator1 : IMessageComponent {
-    private val connector = MsgFactory.buildMessageConnector();
+    private val connector = MsgFactory.buildMessageConnector()
+    private val remoteConnector = MsgFactory.buildRemoteConnector()
 
     private val queue = QUEUES.BANK_TRANSLATOR1
     private val exchange = EXCHANGE.DEFAULT
@@ -41,18 +41,21 @@ class BankTranslator1 : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
-        /*val cphQueue = QUEUES.CPH_REPLY_QUEUE
-        val cphQueue = EXCHANGE.CPH_JSON_BANK
+        // TODO optional translation
+
+        val cphQueue = QUEUES.CPH_REPLY_QUEUE
+        val cphExchange = EXCHANGE.CPH_JSON_BANK
 
         remoteConnector.declareQueue(queue, true)
-        remoteConnector.basicRequestReplyPublish(exchange, AMQP.BasicProperties.Builder().replyTo(queue).build), "I am a message who will return in another queue"*/
+        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), msg)
     }
 
 }
 
-// XML BANK
+// XML BANK (CPH)
 class BankTranslator2 : IMessageComponent {
-    private val connector = MsgFactory.buildMessageConnector();
+    private val connector = MsgFactory.buildMessageConnector()
+    private val remoteConnector = MsgFactory.buildRemoteConnector()
 
     private val queue = QUEUES.BANK_TRANSLATOR2
     private val exchange = EXCHANGE.DEFAULT
@@ -75,18 +78,24 @@ class BankTranslator2 : IMessageComponent {
                 componentAction(message)
             }
         }
-        connector.channel.basicConsume(queue, true, consumer)
+
     }
 
     override fun componentAction(msg: String) {
-        // TODO: Do the actual conversion of the data and publish to banks
+        // TODO optional translation
+
+        val cphQueue = QUEUES.CPH_REPLY_QUEUE
+        val cphExchange = EXCHANGE.CPH_XML_BANK
+
+        remoteConnector.declareQueue(cphQueue, true)
+        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), msg)
     }
 
 }
 
-// JSON BANK
+// XML SOAP BANK (CUSTOM)
 class BankTranslator3 : IMessageComponent {
-    private val connector = MsgFactory.buildMessageConnector();
+    private val connector = MsgFactory.buildMessageConnector()
 
     private val queue = QUEUES.BANK_TRANSLATOR3
     private val exchange = EXCHANGE.DEFAULT
@@ -113,14 +122,15 @@ class BankTranslator3 : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
-        // TODO: Do the actual conversion of the data and publish to banks
+        // TODO optional translation
+       connector.basicPublish(exchange, arrayOf("soapbank"), msg)
     }
 
 }
 
-// JSON BANK
+// XML RABBITMQ BANK (CUSTOM)
 class BankTranslator4 : IMessageComponent {
-    private val connector = MsgFactory.buildMessageConnector();
+    private val connector = MsgFactory.buildMessageConnector()
 
     private val queue = QUEUES.BANK_TRANSLATOR4
     private val exchange = EXCHANGE.DEFAULT;
@@ -147,7 +157,8 @@ class BankTranslator4 : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
-        // TODO: Do the actual conversion of the data and publish to banks
+        // TODO optional translation
+        connector.basicPublish(exchange, arrayOf("rabbitmqbank"), msg)
     }
 
 }
