@@ -47,21 +47,23 @@ class RecipientList : IMessageComponent {
     override fun componentAction(msg: String) {
         val data = XMLParser(RuleRequestObject::class.java).fromXML(msg);
 
-        //Example on how to print rules
+        val newRequestObject = RequestObject(data.ssn, data.amount, data.currency, data.duration, data.creditScore.toString())
+        val xmlRequestObject = XMLParser(RequestObject::class.java).toXML(newRequestObject)
+
         val rules = data.rules;
 
+                // checks if rules-object is valid
                 if (rules != null) {
+                    // iterates through every rule
                     for (rule in rules.rule.orEmpty()) {
-                        var min = 0;
-                        var max = 0;
+                        // checks if both values are valid for rule-checking
                         if(rule.min != null && rule.max != null){
-                            min = Integer.parseInt(rule.min)
-                            max = Integer.parseInt(rule.max)
-                        }
-
-                        for (bank in rule.bank.orEmpty()) {
-                            when (Integer.parseInt(data.creditScore)){
-                                in min..max -> connector.basicPublish(exchange, arrayOf("translator" + bank.bankNo), msg)
+                            var min = rule.min!!.toInt()
+                            var max = rule.min!!.toInt()
+                            // Iterates through every bank and sends to the recipient if the creditscore is in the proper range
+                            if (data.creditScore!!.toInt() >= min && data.creditScore!!.toInt() < max)
+                            for (bank in rule.bank.orEmpty()) {
+                                connector.basicPublish(exchange, arrayOf("translator" + bank.bankNo), xmlRequestObject)
                             }
                         }
                     }
@@ -78,7 +80,7 @@ class RecipientList : IMessageComponent {
         if(rules != null){
             for (rule in rules.rule.orEmpty()){
                 for(bank in rule.bank.orEmpty()){
-                    val tempBankNo = Integer.parseInt(bank.bankNo)
+                    val tempBankNo = bank.bankNo!!.toInt()
                     if(!consistsInArray(tempBankNo, numbers)){
                         numbers.add(tempBankNo)
                     }
