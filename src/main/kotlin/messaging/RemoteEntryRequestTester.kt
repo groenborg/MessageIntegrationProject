@@ -37,8 +37,8 @@ class RemoteEntryRequestTester {
 
 fun main(args: Array<String>) {
     val b = RemoteEntryRequestTester()
-    //b.testJson()
-    b.testXml()
+    b.testJson()
+    //b.testXml()
     b.close()
 }
 

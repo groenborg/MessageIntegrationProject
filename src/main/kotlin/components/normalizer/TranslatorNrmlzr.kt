@@ -34,8 +34,6 @@ class XmlTranslator {
 
 
     fun convertXml(text: String): String {
-        println(text)
-
         val obj = responseXmlParser.fromXML(text)
         obj.bankName = "cphXmlBank"
         return responseXmlParser.toXML(obj)

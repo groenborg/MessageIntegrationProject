@@ -56,7 +56,13 @@ class Aggregator : IMessageComponent {
             println()
             println("I WAS A AGGREGATOR ACTION")
             println("OFFER MESSAGE")
-            handleLoanOffer(loanOfferParser.fromXML(msg))
+            println(msg)
+
+            var obj = loanOfferParser.fromXML(msg)
+
+            println(obj.ssn)
+
+            //handleLoanOffer(loanOfferParser.fromXML(msg))
         }
     }
 
