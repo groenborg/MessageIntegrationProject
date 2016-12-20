@@ -172,6 +172,22 @@ There are some flaws in the architecture
 **Solution** 
 A solution could be to make the banks more verbose and let extra information slip through. That way we can send the extra information the aggregator needs and remove the coupling. 
 
+
+##Quirks
+The whole setup is not ideal. There are many scenarious and funny faults in the system that was hard to find and produced
+outcomes that showed the code wasn't tested properly, and made it difficult to create a generic parsing system and 
+message conventions.
+
+#####SSN fault
+sending SSN to the cphbusiness banks produced some funny errors. The ssn seemes 
+to be casted to an int on their service, so following the services' own ssn convention, with 10 characters, we cannot use 
+ssn' with people being born on days above 21. So people who were born later than the 21th in a month.. bad for you guys.
+Also if you were born before the 10th in a month so you number would have a 0 as the first character, we also get an error.
+
+##### the '-' fault
+There were also inconsistencies in the format of the ssn. Some of the services required the ssn to be formatted like this:
+`xxxxxx-xxxx` but other required the format to be like this: `xxxxxxxxxx`. That also affected the design
+
 ####Link to RuleBase Service
 https://github.com/Robertelving/RuleBaseService
 
