@@ -63,7 +63,7 @@ class RecipientList : IMessageComponent {
                     if (data.creditScore!!.toInt() >= min && data.creditScore!!.toInt() < max) {
                         for (bank in rule.bank!!) {
                             connector.basicPublish(exchange, arrayOf("translator" + bank.bankno), xmlRequestObject)
-                        }
+                         }
                         // Sending message to the aggregator
                         var aggMsg = "<AggRequest><ssn>" + data.ssn + "</ssn>" + "<numOfBanks>" + rule.bank!!.size + "</numOfBanks></AggRequest>";
                         connector.basicPublish(exchange, arrayOf("agg"), aggMsg);

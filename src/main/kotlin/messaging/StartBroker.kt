@@ -6,6 +6,7 @@ import components.normalizer.Normalizer
 import components.recipientlist.*
 import components.rulebase.RuleEnricher
 import components.soapbank.BankEnricher
+import rabbitmqbank.RabbitMQBank
 
 fun main(args: Array<String>) {
 
@@ -22,7 +23,7 @@ fun main(args: Array<String>) {
     BankTranslator4().bindQueue("translator4").startConsume()
 
     BankEnricher().bindQueue("soapbank").startConsume()
-
+    
 
     Normalizer().bindQueue("normalizer").startConsume()
 
