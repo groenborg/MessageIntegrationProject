@@ -49,19 +49,20 @@ class Aggregator : IMessageComponent {
 
         if (isAggMessage(msg)) {
             println()
-            println("I WAS A AGGREGATOR ACTION")
             println("AGG MESSAGE")
             handleAggregate(aggRequestParser.fromXML(msg))
         } else {
             println()
-            println("I WAS A AGGREGATOR ACTION")
             println("OFFER MESSAGE")
+            <<<<<<< HEAD
             println(msg)
 
             var obj = loanOfferParser.fromXML(msg)
 
             println(obj.ssn)
 
+            ====== =
+            >>>>>>> Added builder for offers
             handleLoanOffer(loanOfferParser.fromXML(msg))
         }
     }
@@ -147,12 +148,18 @@ class Aggregator : IMessageComponent {
      * Sends the message and removes the entries from the list
      */
     fun sendAndClear(key: String) {
-        val parser = XMLParser(Array<LoanOffer>::class.java)
-        val message = parser.toXML(loanOffers[key]!!.toTypedArray())
 
-        println("SendAndClear" + message)
+        var accumulatedOffers: String = ""
+        val parser = XMLParser(LoanOffer::class.java)
 
-        connector.basicPublish(exchange, arrayOf(key), message)
+        accumulatedOffers += "<LoanOffers>"
+        for (offer in loanOffers[key]!!) {
+            accumulatedOffers += parser.toXML(offer)
+        }
+        accumulatedOffers += "</LoanOffers>"
+
+        println(accumulatedOffers)
+        connector.basicPublish(exchange, arrayOf(key), accumulatedOffers)
 
         aggregates.remove(key)
         loanOffers.remove(key)
