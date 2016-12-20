@@ -191,26 +191,26 @@ class XMLParser<T>(var obj : Class<T>) {
     fun toXML(obj: Any): String {
         val fields = obj.javaClass.declaredFields
         val builder = StringBuilder()
-        builder.append("\n")
+//        builder.append("\n")
         builder.append(openTag(obj.javaClass.simpleName))
-        builder.append("\n")
+//        builder.append("\n")
         for (_f in fields) {
             if (isNativeObject(_f)) {
                 if (_f.type.isArray) {
                     val data = _f.get(obj) as Array<*>
                     for (o in data) {
-                        builder.append("\n")
+//                        builder.append("\n")
                         builder.append(openTag(_f.name))
                         builder.append(o.toString())
                         builder.append(closeTag(_f.name))
-                        builder.append("\n")
+//                        builder.append("\n")
                     }
                 } else {
-                    builder.append("\n")
+//                    builder.append("\n")
                     builder.append(openTag(_f.name))
                     builder.append(_f.get(obj).toString())
                     builder.append(closeTag(_f.name))
-                    builder.append("\n")
+//                    builder.append("\n")
                 }
             } else {
                 if (_f.type.isArray) {
@@ -224,7 +224,7 @@ class XMLParser<T>(var obj : Class<T>) {
                 }
             }
         }
-        builder.append("\n")
+//        builder.append("\n")
         builder.append(closeTag(obj.javaClass.simpleName))
         return builder.toString().replace("\n\n", "\n")
     }

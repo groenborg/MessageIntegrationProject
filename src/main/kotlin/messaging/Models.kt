@@ -7,6 +7,13 @@ class RequestObject {
 
     constructor()
 
+    constructor(ssn: String?, interestRate: String?, bankName: String?) {
+        this.ssn = ssn
+        this.interestRate = interestRate
+        this.bankName = bankName
+
+    }
+
     constructor(ssn: String?, amount: String?, currency: String?, duration: String?, creditScore: String?) {
         this.ssn = ssn
         this.amount = amount
@@ -20,6 +27,8 @@ class RequestObject {
     @JvmField var currency: String? = ""
     @JvmField var duration: String? = ""
     @JvmField var creditScore: String? = ""
+    @JvmField var interestRate: String? = ""
+    @JvmField var bankName: String? = ""
 }
 
 

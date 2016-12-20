@@ -2,13 +2,12 @@ package components.normalizer
 
 import com.google.gson.Gson
 import messaging.LoanOffer
-import messaging.RequestObject
 import utils.XMLParser
 
 class JsonTranslator() {
 
     val jsonParser = Gson()
-    val xmlParser = XMLParser(RequestObject::class.java)
+    val xmlParser = XMLParser(LoanOffer::class.java)
 
     fun <T> isTypeOfJson(string: String, type: Class<T>): T {
         return jsonParser.fromJson(string, type)

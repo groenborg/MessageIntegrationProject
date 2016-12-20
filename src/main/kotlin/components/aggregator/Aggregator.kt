@@ -48,9 +48,13 @@ class Aggregator : IMessageComponent {
     override fun componentAction(msg: String) {
 
         if (isAggMessage(msg)) {
+            println()
+            println("I WAS A AGGREGATOR ACTION")
             println("AGG MESSAGE")
             handleAggregate(aggRequestParser.fromXML(msg))
         } else {
+            println()
+            println("I WAS A AGGREGATOR ACTION")
             println("OFFER MESSAGE")
             handleLoanOffer(loanOfferParser.fromXML(msg))
         }
@@ -69,7 +73,6 @@ class Aggregator : IMessageComponent {
         val ssn = offer.ssn!!
         if (aggregates.containsKey(ssn)) {
             val numOfbanks = aggregates[ssn]
-
             loanOffers[ssn]!!.add(offer)
 
             if (numOfbanks!! <= loanOffers[ssn]!!.size) {
@@ -109,7 +112,6 @@ class Aggregator : IMessageComponent {
         val numOfBanks = agg.numOfBanks!!.toInt()
         val ssn = agg.ssn!!
         if (aggregates.containsKey(ssn)) {
-
             if (numOfBanks <= loanOffers[ssn]!!.size) {
                 sendAndClear(ssn)
             }

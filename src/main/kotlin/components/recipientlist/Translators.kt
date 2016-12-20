@@ -39,12 +39,13 @@ class BankTranslator1 : IMessageComponent {
 
     override fun componentAction(msg: String) {
         println("JSON - BANK : School / High End / Bank1")
-
+/*
         val cphQueue = QUEUES.CPH_REPLY_QUEUE
         val cphExchange = EXCHANGE.CPH_JSON_BANK
-/*
+
         remoteConnector.declareQueue(queue, true)
-        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), msg)*/
+        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), msg)
+*/
     }
 
 }

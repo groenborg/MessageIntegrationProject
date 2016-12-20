@@ -46,15 +46,16 @@ class BankEnricher : IMessageComponent {
 
         val rO = XMLParser(RequestObject::class.java).fromXML(msg)
 
-        val interestRate = proxy.getInterestRate(rO.ssn.orEmpty(), rO.creditScore!!.toInt(), rO.amount!!.toDouble(), rO.duration!!.toInt())
+        val interestRate = proxy.getInterestRate(rO.ssn!!, rO.creditScore!!.toInt(), rO.amount!!.toDouble(), rO.duration!!.toInt())
 
-        val newInterestRequest = LoanOffer(rO.ssn.orEmpty(), interestRate.toString(), "soapBank")
+        val newInterestRequest = LoanOffer(rO.ssn!!, ""+interestRate, "soapBank")
 
-        val xmlObject = XMLParser(LoanOffer::class.java).toXML(newInterestRequest)
+        val requestXML = XMLParser(LoanOffer::class.java).toXML(newInterestRequest)
 
-        println(xmlObject)
+        println(requestXML)
+        //val t = XMLParser(LoanResponse::class.java).fromXML(requestXML)
 
-        connector.basicPublish(exchange, arrayOf("normalizer"), xmlObject)
+        //connector.basicPublish(exchange, arrayOf("normalizer"), requestXML)
 
     }
 }
