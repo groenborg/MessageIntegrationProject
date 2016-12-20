@@ -117,7 +117,7 @@ In our solution we have chosen approach #1
 
 ###Content Enricher
 A content enricher is a component that uses information from the incoming message to call an external service and "enrich" the message with the new data returned from the service.
-http://www.enterpriseintegrationpatterns.com/img/DataEnricher.gif
+![alt text](http://www.enterpriseintegrationpatterns.com/img/DataEnricher.gif "")
 
 ###Aggregator
 An aggregator is a stagefull filter, which aggregates messages which have been divide by a *splitter*
