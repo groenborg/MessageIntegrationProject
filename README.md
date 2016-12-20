@@ -15,6 +15,15 @@ the tags on github. The Examples are:
 When the project have been cloned you can checkout the examples
 locally using `git checkout <tag name>`, eg `git checkout HelloWorld`
 
+####Link to RuleBase Service
+https://github.com/Robertelving/RuleBaseService
+
+####Link to SOAP based Bank
+https://github.com/Robertelving/LoanBrokerXMLBank
+
+####Link To Loanbroker EntryPoint
+https://github.com/Robertelving/LoanBroker
+
 
 ###Setting up the project
 
@@ -36,28 +45,8 @@ password:`password`, and bind rabbitmq's xmlMessage port and web interface port.
 You can now access the RabbitMQ dashboard on: `localhost:15672`
 
 ####next step
-When the docker image is runnig (`docker ps` - Should list `msg-app`),
-you can run the examples.
- 
- 
-###Using Gradle = Deprecated
-If you do not want to run the files in your IDE, I have predefined two gradle tasks
-which starts the sender and the receiver. These are of course only present in the latest commit.
+When the docker image is runnig (`docker ps` - Should list `msg-app`)
 
-**With gradle wrapper**
-
-`./gradlew startSender` and `./gradlew startRecv`
-
-
-**With local gradle**
-
-`gradle startSender` and `gradle startRecv`
-
-###I have made severe changes
-
-I have created a factory that contains all necessary things to make the connetions
-
-And a class for the 3 standard actions: Declare A queue, Bind the Queue and Start consuming
 
 ###Regarding Credit-Score and Banks
 
@@ -126,6 +115,10 @@ There are two major ways to implement the Recipient List:
 
 In our solution we have chosen approach #1
 
+###Content Enricher
+A content enricher is a component that uses information from the incoming message to call an external service and "enrich" the message with the new data returned from the service.
+http://www.enterpriseintegrationpatterns.com/img/DataEnricher.gif
+
 ###Aggregator
 An aggregator is a stagefull filter, which aggregates messages which have been divide by a *splitter*
 and processed by several vendors. It saves all messages until completeness conditions have been met.
@@ -187,10 +180,3 @@ Also if you were born before the 10th in a month so you number would have a 0 as
 ##### the '-' fault
 There were also inconsistencies in the format of the ssn. Some of the services required the ssn to be formatted like this:
 `xxxxxx-xxxx` but other required the format to be like this: `xxxxxxxxxx`. That also affected the design
-
-####Link to RuleBase Service
-https://github.com/Robertelving/RuleBaseService
-
-####Link to SOAP based Bank
-https://github.com/Robertelving/LoanBrokerXMLBank
-
