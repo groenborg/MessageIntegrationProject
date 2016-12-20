@@ -41,6 +41,7 @@ class CreditEnricher : IMessageComponent {
 
     override fun componentAction(msg: String) {
         println("A CREDIT ACTION OCCURRED")
+        println(msg)
 
         val service = CreditScoreService()
         val proxy = service.creditScoreServicePort

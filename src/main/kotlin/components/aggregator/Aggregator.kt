@@ -62,7 +62,7 @@ class Aggregator : IMessageComponent {
 
             println(obj.ssn)
 
-            //handleLoanOffer(loanOfferParser.fromXML(msg))
+            handleLoanOffer(loanOfferParser.fromXML(msg))
         }
     }
 
