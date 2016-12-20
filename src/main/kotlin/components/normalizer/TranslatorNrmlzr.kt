@@ -23,6 +23,7 @@ class JsonTranslator() {
     }
 
     fun convertToXml(jsonString: String): String {
+
         val jsonObj = jsonParser.fromJson(jsonString, LoanOffer::class.java)
         jsonObj.bankName = "cphJsonBank"
         return xmlParser.toXML(jsonObj)
