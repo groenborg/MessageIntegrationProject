@@ -15,15 +15,6 @@ the tags on github. The Examples are:
 When the project have been cloned you can checkout the examples
 locally using `git checkout <tag name>`, eg `git checkout HelloWorld`
 
-####Link to RuleBase Service
-https://github.com/Robertelving/RuleBaseService
-
-####Link to SOAP based Bank
-https://github.com/Robertelving/LoanBrokerXMLBank
-
-####Link To Loanbroker EntryPoint
-https://github.com/Robertelving/LoanBroker
-
 
 ###Setting up the project
 
@@ -45,8 +36,28 @@ password:`password`, and bind rabbitmq's xmlMessage port and web interface port.
 You can now access the RabbitMQ dashboard on: `localhost:15672`
 
 ####next step
-When the docker image is runnig (`docker ps` - Should list `msg-app`)
+When the docker image is runnig (`docker ps` - Should list `msg-app`),
+you can run the examples.
+ 
+ 
+###Using Gradle = Deprecated
+If you do not want to run the files in your IDE, I have predefined two gradle tasks
+which starts the sender and the receiver. These are of course only present in the latest commit.
 
+**With gradle wrapper**
+
+`./gradlew startSender` and `./gradlew startRecv`
+
+
+**With local gradle**
+
+`gradle startSender` and `gradle startRecv`
+
+###I have made severe changes
+
+I have created a factory that contains all necessary things to make the connetions
+
+And a class for the 3 standard actions: Declare A queue, Bind the Queue and Start consuming
 
 ###Regarding Credit-Score and Banks
 
@@ -94,8 +105,8 @@ When receiving rules from our Rule Base the format COULD be the following in XML
  </rules>
 ```
 
-### The routing logic
-The recipient-list is not a pre-defined component, since you can create it on multiple ways.
+### The Recipient List
+The recipient-list we are including in our project is not a pre-defined component, since you can create it on multiple ways.
 It is more accurate to call the Recipient List a Message Integration Pattern.
 This type of router, can send a single Message to multiple recipients.
 
@@ -115,9 +126,28 @@ There are two major ways to implement the Recipient List:
 
 In our solution we have chosen approach #1
 
-###Content Enricher
-A content enricher is a component that uses information from the incoming message to call an external service and "enrich" the message with the new data returned from the service.
-![alt text](http://www.enterpriseintegrationpatterns.com/img/DataEnricher.gif "")
+Basically we are routing through every rule received from the Rule-enricher. Every rule has a min and max value. They represent a range of creditscore that is assigned to a group of banks. 
+When the recipient list loops through every rule, it checks what range the current client's creditscore is in, and sends to the corresponding banks. 
+We can see that the algorithm of picking the right recipients happens in the Recipient List and not at the recipients themselves. They just consume Messages without discussion. 
+
+### Translators
+We have four translators, one for each bank. A translator is important to use, when you have a Message in a certain format, that a recipient can't consume or interpret. This can be caused by either a different type of format like XML or JSON, but even a recipient working with XML, may not interpret some XML properly. 
+
+Let us look at our messaging component BankTranslator2. 
+This functions as a translator for the schools CPH XML Bank. The format of an incoming request is already predefined with the tags; ssn, creditScore, loanAmount, loanDuration. 
+
+Our own interpretation of a xml request object consist of the following tags; ssn, creditScore, amount, duration. 
+
+As we can see, we have different definition of the amount the client will loan and the duration he/she will loan it in; loanAmount vs amount and loanDuration vs duration. 
+
+Our translator ensures, that the bank will always get a message with this format. 
+
+In our JSON-translator, see BankTranslator1, we are sending JSON to a bank. Here we are translating to an entire different format; XML to JSON. 
+The JSON-banks format is already predefined, and we can implement the logic in the translator to reflect what the bank expects. 
+
+When a translator is done translating, it will publish the translated Message to the corresponding bank. 
+
+When building a translator as a single messaging component
 
 ###Aggregator
 An aggregator is a stagefull filter, which aggregates messages which have been divide by a *splitter*
@@ -148,8 +178,6 @@ A normalizer is a composite component, composed of a *Router* and a *Translator*
 
 The basic architecture is as described in the assignment. The loanbroker is composed by 5 basic components: 
 
-![alt text](https://media.githubusercontent.com/media/groenborg/MessageIntegrationProject/develop/content/adiagram.png)
-
 1. Enrichers - Credit & Rule
 1. Recipient List
 2. Translators - One for each bank; 4 in all
@@ -167,18 +195,9 @@ There are some flaws in the architecture
 **Solution** 
 A solution could be to make the banks more verbose and let extra information slip through. That way we can send the extra information the aggregator needs and remove the coupling. 
 
+####Link to RuleBase Service
+https://github.com/Robertelving/RuleBaseService
 
-##Quirks
-The whole setup is not ideal. There are many scenarious and funny faults in the system that was hard to find and produced
-outcomes that showed the code wasn't tested properly, and made it difficult to create a generic parsing system and 
-message conventions.
+####Link to SOAP based Bank
+https://github.com/Robertelving/LoanBrokerXMLBank
 
-#####SSN fault
-sending SSN to the cphbusiness banks produced some funny errors. The ssn seemes 
-to be casted to an int on their service, so following the services' own ssn convention, with 10 characters, we cannot use 
-ssn' with people being born on days above 21. So people who were born later than the 21th in a month.. bad for you guys.
-Also if you were born before the 10th in a month so you number would have a 0 as the first character, we also get an error.
-
-##### the '-' fault
-There were also inconsistencies in the format of the ssn. Some of the services required the ssn to be formatted like this:
-`xxxxxx-xxxx` but other required the format to be like this: `xxxxxxxxxx`. That also affected the design
