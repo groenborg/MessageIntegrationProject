@@ -20,11 +20,14 @@ The rule base is a webservice that supplies rules on routing between the differe
 
 ####Link to SOAP based Bank
 https://github.com/Robertelving/LoanBrokerXMLBank
+
 A Soap webservice bank implementation
 
 ####Link To Loanbroker EntryPoint
 https://github.com/Robertelving/LoanBroker
-This is the Webservice entrypoint to the Loanbroker component. A client can request LoanOffers through here.
+
+This is the Webservice entrypoint to the Loanbroker component. 
+A client can request LoanOffers through here.
 
 
 ###Setting up the project
