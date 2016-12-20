@@ -142,9 +142,7 @@ class Aggregator : IMessageComponent {
         val parser = XMLParser(LoanOffer::class.java)
 
         accumulatedOffers += "<LoanOffers>"
-        for (offer in loanOffers[key]!!) {
-            accumulatedOffers += parser.toXML(offer)
-        }
+        for (offer in loanOffers[key]!!) accumulatedOffers += parser.toXML(offer)
         accumulatedOffers += "</LoanOffers>"
 
         println(accumulatedOffers)
