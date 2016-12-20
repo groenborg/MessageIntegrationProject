@@ -9,6 +9,7 @@ import messaging.MsgFactory
 import messaging.QUEUES
 import messaging.RequestObject
 import utils.XMLParser
+import messaging.LoanOffer
 
 /**
  * Created by Skroget on 19/12/2016.
@@ -50,16 +51,14 @@ class BankEnricher : IMessageComponent {
 
         val interestRate = proxy.getInterestRate(rO.ssn!!, rO.creditScore!!.toInt(), rO.amount!!.toDouble(), rO.duration!!.toInt())
 
+        val newInterestRequest = LoanOffer()
+        newInterestRequest.ssn = rO.ssn
+        newInterestRequest.interestRate = ""+interestRate
+        newInterestRequest.bankName = "soapBank"
 
-        //val t = XMLParser(LoanResponse::class.java).fromXML(requestXML)
+        val xmlObject = XMLParser(LoanOffer::class.java).toXML(newInterestRequest)
 
-        //connector.basicPublish(exchange, arrayOf("normalizer"), requestXML)
-
-        // val newInterestRequest = LoanOffer(rO.ssn.orEmpty(), interestRate.toString(), "soapBank")
-
-        //  val xmlObject = XMLParser(LoanOffer::class.java).toXML(newInterestRequest)
-
-        //connector.basicPublish(exchange, arrayOf("normalizer"), xmlObject)
+        connector.basicPublish(exchange, arrayOf("normalizer"), xmlObject)
 
 
     }

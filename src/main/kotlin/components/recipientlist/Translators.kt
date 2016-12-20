@@ -101,8 +101,8 @@ class BankTranslator2 : IMessageComponent {
         val cphExchange = EXCHANGE.CPH_XML_BANK
 
         remoteConnector.declareQueue(cphQueue, true)
-        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), translatedJSON)
 
+        remoteConnector.basicRequestReplyPublish(cphExchange, AMQP.BasicProperties.Builder().replyTo(cphQueue).build(), translatedJSON)
     }
 
 }
@@ -165,7 +165,7 @@ class BankTranslator4 : IMessageComponent {
 
     override fun componentAction(msg: String) {
         println("XML - BANK : Custom Rabbit / BAD / Bank4")
-        //connector.basicPublish(exchange, arrayOf("rabbitmqbank"), msg)
+        connector.basicPublish(exchange, arrayOf("rabbitmqbank"), msg)
     }
 
 }

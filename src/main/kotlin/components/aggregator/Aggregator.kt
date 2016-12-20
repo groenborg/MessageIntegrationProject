@@ -62,7 +62,7 @@ class Aggregator : IMessageComponent {
 
             println(obj.ssn)
 
-            //handleLoanOffer(loanOfferParser.fromXML(msg))
+            handleLoanOffer(loanOfferParser.fromXML(msg))
         }
     }
 
@@ -150,7 +150,8 @@ class Aggregator : IMessageComponent {
         val parser = XMLParser(Array<LoanOffer>::class.java)
         val message = parser.toXML(loanOffers[key]!!.toTypedArray())
 
-        println(message)
+        println("SendAndClear" + message)
+
         connector.basicPublish(exchange, arrayOf(key), message)
 
         aggregates.remove(key)
