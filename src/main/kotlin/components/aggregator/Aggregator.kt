@@ -48,21 +48,10 @@ class Aggregator : IMessageComponent {
     override fun componentAction(msg: String) {
 
         if (isAggMessage(msg)) {
-            println()
             println("AGG MESSAGE")
             handleAggregate(aggRequestParser.fromXML(msg))
         } else {
-            println()
             println("OFFER MESSAGE")
-            <<<<<<< HEAD
-            println(msg)
-
-            var obj = loanOfferParser.fromXML(msg)
-
-            println(obj.ssn)
-
-            ====== =
-            >>>>>>> Added builder for offers
             handleLoanOffer(loanOfferParser.fromXML(msg))
         }
     }
