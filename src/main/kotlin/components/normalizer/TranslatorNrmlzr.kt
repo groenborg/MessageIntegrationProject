@@ -25,7 +25,11 @@ class JsonTranslator() {
     fun convertToXml(jsonString: String): String {
 
         val jsonObj = jsonParser.fromJson(jsonString, LoanOffer::class.java)
-        jsonObj.bankName = "cphJsonBank"
+        if (jsonObj.bankName == ""){
+            jsonObj.bankName = "cphJsonBank"
+            jsonObj.ssn = jsonObj.ssn!!.substring(0,6) + "-" + jsonObj.ssn!!.substring(6)
+
+        }
         return xmlParser.toXML(jsonObj)
     }
 }
@@ -35,8 +39,14 @@ class XmlTranslator {
 
 
     fun convertXml(text: String): String {
+
         val obj = responseXmlParser.fromXML(text)
-        obj.bankName = "cphXmlBank"
+
+        if (obj.bankName == ""){
+            obj.bankName = "cphXmlBank"
+            obj.ssn = obj.ssn!!.substring(0,6) + "-" + obj.ssn!!.substring(6)
+        }
+
         return responseXmlParser.toXML(obj)
     }
 }

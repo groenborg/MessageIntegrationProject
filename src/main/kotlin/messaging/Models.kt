@@ -79,7 +79,7 @@ class rule {
 class LoanOffer {
     @JvmField var ssn: String? = null
     @JvmField var interestRate: String? = null
-    @JvmField var bankName: String? = null
+    @JvmField var bankName: String? = ""
 }
 
 class bank {
