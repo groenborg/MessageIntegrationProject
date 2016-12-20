@@ -24,14 +24,9 @@ class RabbitMQBank : IMessageComponent {
     }
 
     override fun startConsume() {
-        println("[RECEIVER]:[STATUS] - Waiting for [*] messages. To exit press CTRL+C")
-
         val consumer = object : DefaultConsumer(connector.channel) {
             override fun handleDelivery(consumerTag: String?, envelope: Envelope?, properties: AMQP.BasicProperties?, body: ByteArray?) {
                 val message = String(body!!, Charsets.UTF_8)
-                val routingKey = envelope?.routingKey
-                println("[RECEIVER]:[CAUGHT][MESSAGE] -- '$message' -- [ROUTING KEY]:$routingKey")
-
                 componentAction(message)
             }
         }
@@ -39,12 +34,18 @@ class RabbitMQBank : IMessageComponent {
     }
 
     override fun componentAction(msg: String) {
+        println()
+        println("I WAS A RABBITBANK ACTION")
         val requestObject = XMLParser(RequestObject::class.java).fromXML(msg)
 
-        val interestRate = computeInterestRate(requestObject.ssn.orEmpty(), requestObject.creditScore!!.toInt(), requestObject.amount!!.toDouble(), requestObject.duration!!.toInt())
+        val interestRate = computeInterestRate(requestObject.ssn!!, requestObject.creditScore!!.toInt(), requestObject.amount!!.toDouble(), requestObject.duration!!.toInt())
 
-        val newInterestRequest = LoanOffer(requestObject.ssn.orEmpty(), interestRate.toString(), "rabbitmqBank")
-        val xmlInterestObject = XMLParser(RequestObject::class.java).toXML(newInterestRequest)
+        val newInterestRequest = LoanOffer()
+        newInterestRequest.ssn = requestObject.ssn!!
+        newInterestRequest.interestRate = interestRate.toString()
+        newInterestRequest.bankName = "rabbitmqBank"
+
+        val xmlInterestObject = XMLParser(LoanOffer::class.java).toXML(newInterestRequest)
 
         connector.basicPublish(exchange, arrayOf("normalizer"), xmlInterestObject)
 

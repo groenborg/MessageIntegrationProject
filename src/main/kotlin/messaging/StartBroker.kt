@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
     BankTranslator4().bindQueue("translator4").startConsume()
 
     BankEnricher().bindQueue("soapbank").startConsume()
-    
+    RabbitMQBank().bindQueue("rabbitmqbank").startConsume()
 
     Normalizer().bindQueue("normalizer").startConsume()
 
