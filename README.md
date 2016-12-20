@@ -148,6 +148,8 @@ A normalizer is a composite component, composed of a *Router* and a *Translator*
 
 The basic architecture is as described in the assignment. The loanbroker is composed by 5 basic components: 
 
+![alt text](https://media.githubusercontent.com/media/groenborg/MessageIntegrationProject/develop/content/adiagram.png)
+
 1. Enrichers - Credit & Rule
 1. Recipient List
 2. Translators - One for each bank; 4 in all
