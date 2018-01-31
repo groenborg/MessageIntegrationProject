@@ -1,9 +1,9 @@
-#Integration Assignment 
+# Integration Assignment 
 
 Assignment created for the system integration course, using Kotlin, rabbit MQ, 
 gradle and Docker
 
-###How to access examples
+### How to access examples
 
 I have created 3 examples which uses rabbit MQ which can be accessed using 
 the tags on github. The Examples are: 
@@ -15,22 +15,22 @@ the tags on github. The Examples are:
 When the project have been cloned you can checkout the examples
 locally using `git checkout <tag name>`, eg `git checkout HelloWorld`
 
-####RuleBase Service - https://github.com/Robertelving/RuleBaseService
+#### RuleBase Service - https://github.com/Robertelving/RuleBaseService
 The rule base is a webservice that supplies rules on routing between the different banks. The service is accessed through a contentEnricher 
 
-####Link to SOAP based Bank
+#### Link to SOAP based Bank
 https://github.com/Robertelving/LoanBrokerXMLBank
 
 A Soap webservice bank implementation
 
-####Link To Loanbroker EntryPoint
+#### Link To Loanbroker EntryPoint
 https://github.com/Robertelving/LoanBroker
 
 This is the Webservice entrypoint to the Loanbroker component. 
 A client can request LoanOffers through here.
 
 
-###Setting up the project
+### Setting up the project
 
 clone the github repository to your local machine. 
 
@@ -49,11 +49,11 @@ password:`password`, and bind rabbitmq's xmlMessage port and web interface port.
 
 You can now access the RabbitMQ dashboard on: `localhost:15672`
 
-####next step
+#### next step
 When the docker image is runnig (`docker ps` - Should list `msg-app`)
 
 
-###Regarding Credit-Score and Banks
+### Regarding Credit-Score and Banks
 
 We have taken inspiration from following website about credit-scores --> [source](http://www.freescore.com/good-bad-credit-score-range.aspx)
 
@@ -76,7 +76,7 @@ In a summary:
 
 We are just using these facts as a proof of concept, even though it may look differently in the real world.  
 
-####Rule Base
+#### Rule Base
 
 When receiving rules from our Rule Base the format COULD be the following in XML:
 
@@ -120,11 +120,11 @@ There are two major ways to implement the Recipient List:
 
 In our solution we have chosen approach #1
 
-###Content Enricher
+### Content Enricher
 A content enricher is a component that uses information from the incoming message to call an external service and "enrich" the message with the new data returned from the service.
 ![alt text](http://www.enterpriseintegrationpatterns.com/img/DataEnricher.gif "")
 
-###Aggregator
+### Aggregator
 An aggregator is a stagefull filter, which aggregates messages which have been divide by a *splitter*
 and processed by several vendors. It saves all messages until completeness conditions have been met.
   
@@ -142,14 +142,14 @@ and processed by several vendors. It saves all messages until completeness condi
   1. **Timeout** - Wait for a specific amount of time and send whatever you have
   1. **External event** - Let an external event trigger your sending mechanism
 
-###Normalizer
+### Normalizer
 A normalizer is a composite component, composed of a *Router* and a *Translator*. The Router reads the
  message format and directs it to the right translator for proper translation.
  
 1. A *Translator* uses a filter to convert data from one format to another
 1. A *Router* Is a component which directs messages into queues based on specific requirements
 
-###Architecture
+### Architecture
 
 The basic architecture is as described in the assignment. The loanbroker is composed by 5 basic components: 
 
@@ -173,12 +173,12 @@ There are some flaws in the architecture
 A solution could be to make the banks more verbose and let extra information slip through. That way we can send the extra information the aggregator needs and remove the coupling. 
 
 
-##Quirks
+## Quirks
 The whole setup is not ideal. There are many scenarious and funny faults in the system that was hard to find and produced
 outcomes that showed the code wasn't tested properly, and made it difficult to create a generic parsing system and 
 message conventions.
 
-#####SSN fault
+##### SSN fault
 sending SSN to the cphbusiness banks produced some funny errors. The ssn seemes 
 to be casted to an int on their service, so following the services' own ssn convention, with 10 characters, we cannot use 
 ssn' with people being born on days above 21. So people who were born later than the 21th in a month.. bad for you guys.
